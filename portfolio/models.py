@@ -13,9 +13,8 @@ class Licenciatura(models.Model):
 class Docente(models.Model):
     nome = models.CharField(max_length=150)
     email = models.EmailField(blank=True)
-    url_pagina_lusofona = models.URLField(blank=True)
     foto = models.ImageField(upload_to='docentes/', blank=True, null=True)
-
+    url_pagina_lusofona = models.URLField(blank=True)
     def __str__(self):
         return self.nome
 
@@ -27,6 +26,7 @@ class UnidadeCurricular(models.Model):
     semestre = models.IntegerField()
     ects = models.IntegerField()
     descricao = models.TextField(blank=True)
+    imagem = models.ImageField(upload_to='ucs/', blank=True, null=True)
     licenciatura = models.ForeignKey(Licenciatura, on_delete=models.CASCADE, related_name='ucs')
     docentes = models.ManyToManyField(Docente, blank=True, related_name='ucs')
 
@@ -40,8 +40,10 @@ class Tecnologia(models.Model):
     CATEGORIA_CHOICES = [('linguagem','Linguagem'),('framework','Framework'),
                          ('bd','Base de Dados'),('ferramenta','Ferramenta'),('outro','Outro')]
     nome = models.CharField(max_length=100)
+    logo = models.ImageField(upload_to='tecnologias/', blank=True, null=True)
+    url_tecnologia = models.URLField(blank=True)
+    destaque = models.TextField(blank=True, help_text='O que de mais relevante aprendeste')
     categoria = models.CharField(max_length=20, choices=CATEGORIA_CHOICES)
-    descricao = models.TextField(blank=True)
     nivel = models.IntegerField(choices=NIVEL_CHOICES, default=1)
 
     def __str__(self):
@@ -69,6 +71,7 @@ class Competencia(models.Model):
     descricao = models.TextField(blank=True)
     tecnologias = models.ManyToManyField(Tecnologia, blank=True, related_name='competencias')
     projetos = models.ManyToManyField(Projeto, blank=True, related_name='competencias')
+    experiencias = models.ManyToManyField('ExperienciaProfissional',blank=True,related_name='competencias_adquiridas')
 
     def __str__(self):
         return self.nome
@@ -98,6 +101,7 @@ class TFC(models.Model):
     ano = models.IntegerField()
     descricao = models.TextField(blank=True)
     url_repositorio = models.URLField(blank=True)
+    interesse = models.IntegerField(default=1, help_text='1 a 5 — nível de interesse')
     tecnologias = models.ManyToManyField(Tecnologia, blank=True, related_name='tfcs')
     competencias = models.ManyToManyField(Competencia, blank=True, related_name='tfcs')
 
@@ -111,9 +115,10 @@ class ExperienciaProfissional(models.Model):
     cargo = models.CharField(max_length=150)
     data_inicio = models.DateField()
     data_fim = models.DateField(blank=True, null=True)
-    descricao = models.TextField(blank=True)
+    descricao_Empresa = models.TextField(blank=True)
+    descricao_Cargo = models.TextField(blank=True)
     tecnologias = models.ManyToManyField(Tecnologia, blank=True, related_name='experiencias')
-    competencias = models.ManyToManyField(Competencia, blank=True, related_name='experiencias')
+    
 
     def __str__(self):
         return f'{self.cargo} @ {self.empresa}'
@@ -122,23 +127,29 @@ class ExperienciaProfissional(models.Model):
 
 class MakingOf(models.Model):
     ENTIDADE_CHOICES = [
-        ('licenciatura','Licenciatura'),('uc','Unidade Curricular'),
-        ('projeto','Projeto'),('tecnologia','Tecnologia'),
-        ('competencia','Competência'),('formacao','Formação'),
-        ('tfc','TFC'),('experiencia','Experiência Profissional'),('geral','Geral'),
+        ('licenciatura','Licenciatura'),
+        ('uc','Unidade Curricular'),
+        ('projeto','Projeto'),
+        ('tecnologia','Tecnologia'),
+        ('competencia','Competência'),
+        ('formacao','Formação'),
+        ('tfc','TFC'),
+        ('experiencia','Experiência Profissional'),
+        ('MakingOf','MakingOf'),
     ]
     titulo = models.CharField(max_length=200)
     entidade_relacionada = models.CharField(max_length=30, choices=ENTIDADE_CHOICES)
     descricao = models.TextField()
     decisoes_tomadas = models.TextField(blank=True)
+    justificacao_modelacao = models.TextField(blank=True)  
     erros_encontrados = models.TextField(blank=True)
     correcoes = models.TextField(blank=True)
     uso_ia = models.TextField(blank=True)
     foto = models.ImageField(upload_to='makingof/', blank=True, null=True)
-    data = models.DateField(auto_now_add=True)
-    projeto = models.ForeignKey(Projeto, on_delete=models.SET_NULL,
-                                null=True, blank=True, related_name='makingofs')
-    tecnologias = models.ManyToManyField(Tecnologia, blank=True, related_name='makingofs')
+    foto2 = models.ImageField(upload_to='makingof/', blank=True, null=True)  
+    foto3 = models.ImageField(upload_to='makingof/', blank=True, null=True)  
+    foto4 = models.ImageField(upload_to='makingof/', blank=True, null=True) 
+    foto5 = models.ImageField(upload_to='makingof/', blank=True, null=True) 
 
     def __str__(self):
         return self.titulo
