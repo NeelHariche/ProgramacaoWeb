@@ -1,0 +1,36 @@
+{% extends 'portfolio/base.html' %}
+{% block title %}Tecnologias{% endblock %}
+{% block nav_tec %}active{% endblock %}
+{% block breadcrumb %}<b>/ tecnologias</b>{% endblock %}
+{% block content %}
+<div class="page-header">
+    <div>
+        <div class="page-label">// portfólio</div>
+        <div class="page-title">Tecnologias</div>
+    </div>
+</div>
+<div class="card">
+    <table>
+        <thead><tr><th>Nome</th><th>Categoria</th><th>Nível</th><th>Site</th></tr></thead>
+        <tbody>
+        {% for t in tecnologias %}
+            <tr>
+                <td class="text-dark">{{ t.nome }}</td>
+                <td><span class="badge badge-cyan">{{ t.get_categoria_display }}</span></td>
+                <td>
+                    <span class="stars">
+                        {% if t.nivel == 1 %}★☆☆
+                        {% elif t.nivel == 2 %}★★☆
+                        {% elif t.nivel == 3 %}★★★
+                        {% endif %}
+                    </span>
+                </td>
+                <td>{% if t.url_oficial %}<a href="{{ t.url_oficial }}" target="_blank" class="link-accent">↗ link</a>{% else %}<span class="text-muted">—</span>{% endif %}</td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="4"><div class="empty"><span>◉</span>Nenhuma tecnologia adicionada ainda.</div></td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

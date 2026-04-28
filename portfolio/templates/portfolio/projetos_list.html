@@ -1,0 +1,36 @@
+{% extends 'portfolio/base.html' %}
+{% block title %}Projetos{% endblock %}
+{% block nav_proj %}active{% endblock %}
+{% block breadcrumb %}<b>/ projetos</b>{% endblock %}
+{% block content %}
+<div class="page-header">
+    <div>
+        <div class="page-label">// portfólio</div>
+        <div class="page-title">Projetos</div>
+    </div>
+</div>
+<div class="card">
+    <table>
+        <thead><tr><th>Nome</th><th>Ano</th><th>UC</th><th>Tecnologias</th><th>GitHub</th></tr></thead>
+        <tbody>
+        {% for p in projetos %}
+            <tr>
+                <td class="text-dark">{{ p.nome }}</td>
+                <td class="text-muted">{{ p.ano }}</td>
+                <td>{% if p.uc %}<span class="badge badge-cyan">{{ p.uc.nome }}</span>{% else %}<span class="text-muted">—</span>{% endif %}</td>
+                <td>
+                    {% for t in p.tecnologias.all %}
+                        <span class="badge badge-purple">{{ t.nome }}</span>
+                    {% empty %}
+                        <span class="text-muted">—</span>
+                    {% endfor %}
+                </td>
+                <td>{% if p.url_repositorio %}<a href="{{ p.url_repositorio }}" target="_blank" class="link-accent">↗ repo</a>{% else %}<span class="text-muted">—</span>{% endif %}</td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="5"><div class="empty"><span>◈</span>Nenhum projeto adicionado ainda.</div></td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'portfolio/base.html' %}
+{% block title %}Docentes{% endblock %}
+{% block nav_doc %}active{% endblock %}
+{% block breadcrumb %}<b>/ docentes</b>{% endblock %}
+{% block content %}
+<div class="page-header">
+    <div>
+        <div class="page-label">// académico</div>
+        <div class="page-title">Docentes</div>
+    </div>
+</div>
+<div class="card">
+    <table>
+        <thead><tr><th>Docente</th><th>Email</th><th>UCs</th><th>Página Lusófona</th></tr></thead>
+        <tbody>
+        {% for d in docentes %}
+            <tr>
+                <td>
+                    <div class="docente-cell">
+                        {% if d.foto %}
+                            <img src="{{ d.foto.url }}" alt="{{ d.nome }}" class="docente-avatar">
+                        {% else %}
+                            <div class="docente-avatar-placeholder">👤</div>
+                        {% endif %}
+                        <span class="docente-name">{{ d.nome }}</span>
+                    </div>
+                </td>
+                <td class="text-muted">{{ d.email|default:"—" }}</td>
+                <td>
+                    {% for uc in d.ucs.all %}
+                        <span class="badge badge-cyan">{{ uc.nome }}</span>
+                    {% empty %}
+                        <span class="text-muted">—</span>
+                    {% endfor %}
+                </td>
+                <td>{% if d.url_pagina_lusofona %}<a href="{{ d.url_pagina_lusofona }}" target="_blank" class="link-accent">↗ perfil</a>{% else %}<span class="text-muted">—</span>{% endif %}</td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="4"><div class="empty"><span>👤</span>Nenhum docente adicionado ainda.</div></td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

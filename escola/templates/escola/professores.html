@@ -1,0 +1,49 @@
+{% extends 'portfolio/base.html' %}
+{% block title %}Professores{% endblock %}
+{% block nav_profs %}active{% endblock %}
+{% block breadcrumb %}<b>/ escola / professores</b>{% endblock %}
+{% block content %}
+<div class="page-header">
+    <div>
+        <div class="page-label">// escola</div>
+        <div class="page-title">Professores</div>
+    </div>
+</div>
+<div class="card">
+    <table>
+        <thead>
+            <tr>
+                <th>Docente</th>
+                <th>Email</th>
+                <th>Cursos que leciona</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for professor in professores %}
+            <tr>
+                <td>
+                    <div class="docente-cell">
+                        {% if professor.foto %}
+                            <img src="{{ professor.foto.url }}" alt="{{ professor.nome }}" class="docente-avatar">
+                        {% else %}
+                            <div class="docente-avatar-placeholder">👤</div>
+                        {% endif %}
+                        <span class="docente-name">{{ professor.nome }}</span>
+                    </div>
+                </td>
+                <td class="text-muted">{{ professor.email|default:"—" }}</td>
+                <td>
+                    {% for curso in professor.cursos.all %}
+                        <a href="{% url 'curso' curso.id %}" class="badge badge-cyan" style="text-decoration:none;margin-right:4px;">{{ curso.nome }}</a>
+                    {% empty %}
+                        <span class="text-muted">Sem cursos</span>
+                    {% endfor %}
+                </td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="3"><div class="empty"><span>👨‍🏫</span>Nenhum professor adicionado.</div></td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

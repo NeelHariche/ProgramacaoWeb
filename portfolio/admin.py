@@ -65,16 +65,3 @@ class TFCAdmin(admin.ModelAdmin):
     filter_horizontal = ['tecnologias', 'competencias']
 
 
-@admin.register(ExperienciaProfissional)
-class ExperienciaProfissionalAdmin(admin.ModelAdmin):
-    list_display = ['cargo', 'empresa', 'data_inicio', 'data_fim']
-    search_fields = ['cargo', 'empresa']
-    filter_horizontal = ['tecnologias']
-
-
-@admin.register(MakingOf)
-class MakingOfAdmin(admin.ModelAdmin):
-    list_display = ['titulo', 'entidade_relacionada']
-    list_filter = ['entidade_relacionada']
-    search_fields = ['titulo', 'descricao']
-   

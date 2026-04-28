@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Portfólio{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f8fafc; --bg2: #ffffff; --bg3: #f1f5f9;
+            --border: #e2e8f0; --accent: #0ea5e9; --accent-dark: #0284c7;
+            --green: #10b981; --danger: #ef4444; --warning: #f59e0b;
+            --text: #0f172a; --muted: #64748b; --sidebar: #0f172a;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; display:flex; min-height:100vh; }
+        .sidebar { width:220px; min-height:100vh; background:var(--sidebar); display:flex; flex-direction:column; position:fixed; top:0; left:0; bottom:0; overflow-y:auto; }
+        .sidebar-brand { padding:22px 20px; border-bottom:1px solid rgba(255,255,255,0.08); }
+        .sidebar-brand .tag { font-family:'Space Mono',monospace; font-size:9px; color:var(--accent); letter-spacing:3px; text-transform:uppercase; }
+        .sidebar-brand h2 { font-size:15px; font-weight:700; color:#fff; margin-top:5px; }
+        .sidebar-brand small { font-size:11px; color:#64748b; font-family:'Space Mono',monospace; }
+        .nav-section { padding:14px 20px 4px; font-family:'Space Mono',monospace; font-size:9px; color:#475569; letter-spacing:2px; text-transform:uppercase; }
+        .nav-link { display:flex; align-items:center; gap:10px; padding:9px 20px; color:#94a3b8; text-decoration:none; font-size:13px; font-weight:500; transition:all .15s; border-left:2px solid transparent; }
+        .nav-link:hover { color:#e2e8f0; background:rgba(255,255,255,0.05); }
+        .nav-link.active { color:#fff; border-left-color:var(--accent); background:rgba(14,165,233,0.1); }
+        .nav-ico { width:16px; text-align:center; }
+        .sidebar-footer { margin-top:auto; padding:14px 20px; border-top:1px solid rgba(255,255,255,0.08); font-family:'Space Mono',monospace; font-size:10px; color:#475569; }
+        .dot { display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--green); box-shadow:0 0 6px var(--green); margin-right:5px; animation:blink 2s infinite; }
+        @keyframes blink { 0%,100%{opacity:1}50%{opacity:.3} }
+        .main { margin-left:220px; flex:1; }
+        .topbar { height:52px; border-bottom:1px solid var(--border); display:flex; align-items:center; padding:0 30px; background:var(--bg2); position:sticky; top:0; z-index:10; box-shadow:0 1px 3px rgba(0,0,0,0.06); }
+        .breadcrumb { font-family:'Space Mono',monospace; font-size:11px; color:var(--muted); }
+        .breadcrumb b { color:var(--accent-dark); }
+        .content { padding:30px; max-width:1000px; }
+        .page-header { display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:24px; flex-wrap:wrap; gap:12px; }
+        .page-label { font-family:'Space Mono',monospace; font-size:9px; color:var(--accent); letter-spacing:3px; text-transform:uppercase; margin-bottom:4px; }
+        .page-title { font-size:24px; font-weight:700; color:var(--text); }
+        .btn { display:inline-flex; align-items:center; gap:6px; padding:8px 16px; border-radius:6px; font-size:12px; font-weight:600; text-decoration:none; border:1px solid transparent; cursor:pointer; transition:all .15s; font-family:'Inter',sans-serif; }
+        .btn-primary { background:var(--accent); color:#fff; border-color:var(--accent); }
+        .btn-primary:hover { background:var(--accent-dark); box-shadow:0 2px 8px rgba(14,165,233,0.3); }
+        .btn-edit { background:transparent; color:#d97706; border-color:#fde68a; }
+        .btn-edit:hover { background:#fffbeb; }
+        .btn-del { background:transparent; color:var(--danger); border-color:#fecaca; }
+        .btn-del:hover { background:#fef2f2; }
+        .btn-ghost { background:transparent; color:var(--muted); border-color:var(--border); }
+        .btn-ghost:hover { color:var(--text); border-color:#cbd5e1; }
+        .card { background:var(--bg2); border:1px solid var(--border); border-radius:10px; overflow:hidden; box-shadow:0 1px 4px rgba(0,0,0,0.06); }
+        table { width:100%; border-collapse:collapse; }
+        thead { background:var(--bg3); border-bottom:1px solid var(--border); }
+        th { padding:11px 18px; font-family:'Space Mono',monospace; font-size:9px; color:var(--muted); letter-spacing:2px; text-transform:uppercase; text-align:left; font-weight:600; }
+        td { padding:13px 18px; font-size:14px; border-bottom:1px solid var(--border); vertical-align:middle; color:#0f172a; font-weight:500; }
+        tr:last-child td { border-bottom:none; }
+        tbody tr:hover { background:#f0f9ff; }
+        .actions { display:flex; gap:6px; }
+        .empty { padding:48px; text-align:center; color:var(--muted); font-size:13px; }
+        .empty span { display:block; font-size:30px; margin-bottom:10px; }
+        .badge { display:inline-block; padding:3px 10px; border-radius:20px; font-size:11px; font-family:'Space Mono',monospace; font-weight:600; }
+        .badge-cyan { background:#e0f2fe; color:#0284c7; border:1px solid #bae6fd; }
+        .badge-green { background:#d1fae5; color:#059669; border:1px solid #a7f3d0; }
+        .badge-yellow { background:#fef3c7; color:#d97706; border:1px solid #fde68a; }
+        .badge-purple { background:#ede9fe; color:#7c3aed; border:1px solid #ddd6fe; }
+        .stars { color:var(--warning); font-size:14px; }
+        .form-card { background:var(--bg2); border:1px solid var(--border); border-radius:10px; padding:26px; max-width:620px; box-shadow:0 1px 4px rgba(0,0,0,0.06); }
+        .form-card p { margin-bottom:14px; }
+        .form-card label { display:block; font-family:'Space Mono',monospace; font-size:9px; color:var(--muted); letter-spacing:1.5px; text-transform:uppercase; margin-bottom:5px; }
+        .form-card input,.form-card textarea,.form-card select { width:100%; background:#fff; border:1px solid var(--border); border-radius:6px; padding:8px 12px; color:var(--text); font-size:13px; font-family:'Inter',sans-serif; transition:border-color .15s; }
+        .form-card input:focus,.form-card textarea:focus,.form-card select:focus { outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(14,165,233,0.1); }
+        .form-card textarea { resize:vertical; min-height:80px; }
+        .form-card ul { list-style:none; }
+        .form-card ul li { margin-bottom:6px; font-size:13px; }
+        .form-card ul li label { display:inline; font-family:'Inter',sans-serif; font-size:13px; color:var(--text); text-transform:none; letter-spacing:0; }
+        .form-card input[type="checkbox"] { width:auto; margin-right:7px; }
+        .form-actions { display:flex; gap:10px; margin-top:22px; }
+        .confirm-box { background:#fff5f5; border:1px solid #fecaca; border-radius:10px; padding:24px; max-width:500px; }
+        .confirm-box p { font-size:14px; margin-bottom:20px; color:var(--text); }
+        .confirm-box strong { color:var(--accent-dark); }
+        .stats-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(170px,1fr)); gap:14px; margin-bottom:30px; }
+        .stat-card { background:var(--bg2); border:1px solid var(--border); border-radius:10px; padding:18px 20px; text-decoration:none; transition:all .15s; display:block; box-shadow:0 1px 3px rgba(0,0,0,0.05); }
+        .stat-card:hover { border-color:var(--accent); transform:translateY(-2px); box-shadow:0 6px 20px rgba(14,165,233,0.12); }
+        .stat-ico { font-size:20px; margin-bottom:10px; }
+        .stat-num { font-size:30px; font-weight:700; color:var(--accent); line-height:1; }
+        .stat-label { font-family:'Space Mono',monospace; font-size:9px; color:var(--muted); letter-spacing:2px; text-transform:uppercase; margin-top:6px; }
+        .docente-cell { display:flex; align-items:center; gap:12px; }
+        .docente-avatar { width:36px; height:36px; border-radius:50%; object-fit:cover; border:2px solid var(--border); flex-shrink:0; }
+        .docente-avatar-placeholder { width:36px; height:36px; border-radius:50%; background:var(--bg3); border:2px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:14px; flex-shrink:0; }
+        .docente-name { font-weight:600; color:#0f172a; font-size:13px; }
+        .text-dark { color:#0f172a !important; font-weight:600; }
+        .text-muted { color:#64748b; }
+        a.link-accent { color:#0284c7; font-size:12px; font-family:'Space Mono',monospace; }
+    </style>
+</head>
+<body>
+<aside class="sidebar">
+    <div class="sidebar-brand">
+        <div class="tag">// portfolio</div>
+        <h2>Neel Hariche</h2>
+        <small>a22405422</small>
+    </div>
+    <div class="nav-section">Menu</div>
+    <a href="/" class="nav-link {% block nav_home %}{% endblock %}"><span class="nav-ico">⌂</span> Início</a>
+    <div class="nav-section">Académico</div>
+    <a href="/licenciaturas/" class="nav-link {% block nav_lic %}{% endblock %}"><span class="nav-ico">🎓</span> Licenciaturas</a>
+    <a href="/ucs/" class="nav-link {% block nav_uc %}{% endblock %}"><span class="nav-ico">📚</span> Unid. Curriculares</a>
+    <a href="/docentes/" class="nav-link {% block nav_doc %}{% endblock %}"><span class="nav-ico">👤</span> Docentes</a>
+    <div class="nav-section">Portfólio</div>
+    <a href="/projetos/" class="nav-link {% block nav_proj %}{% endblock %}"><span class="nav-ico">◈</span> Projetos</a>
+    <a href="/tecnologias/" class="nav-link {% block nav_tec %}{% endblock %}"><span class="nav-ico">◉</span> Tecnologias</a>
+    <a href="/competencias/" class="nav-link {% block nav_comp %}{% endblock %}"><span class="nav-ico">◎</span> Competências</a>
+    <a href="/formacoes/" class="nav-link {% block nav_form %}{% endblock %}"><span class="nav-ico">◷</span> Formações</a>
+    <a href="/tfcs/" class="nav-link {% block nav_tfc %}{% endblock %}"><span class="nav-ico">◌</span> TFCs</a>
+    <div class="nav-section">Escola</div>
+    <a href="/escola/cursos/" class="nav-link {% block nav_cursos %}{% endblock %}"><span class="nav-ico">🏫</span> Cursos</a>
+    <a href="/escola/professores/" class="nav-link {% block nav_profs %}{% endblock %}"><span class="nav-ico">👨‍🏫</span> Professores</a>
+    <a href="/escola/alunos/" class="nav-link {% block nav_alunos %}{% endblock %}"><span class="nav-ico">🎒</span> Alunos</a>
+    <div class="nav-section">Sistema</div>
+    <a href="/admin/" class="nav-link"><span class="nav-ico">⚙</span> Admin</a>
+    <div class="sidebar-footer"><span class="dot"></span>sistema ativo</div>
+</aside>
+<div class="main">
+    <div class="topbar">
+        <div class="breadcrumb">{% block breadcrumb %}<b>/</b>{% endblock %}</div>
+    </div>
+    <div class="content">{% block content %}{% endblock %}</div>
+</div>
+</body>
+</html>

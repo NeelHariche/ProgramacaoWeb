@@ -1,0 +1,29 @@
+{% extends 'portfolio/base.html' %}
+{% block title %}Licenciaturas{% endblock %}
+{% block nav_lic %}active{% endblock %}
+{% block breadcrumb %}<b>/ licenciaturas</b>{% endblock %}
+{% block content %}
+<div class="page-header">
+    <div>
+        <div class="page-label">// académico</div>
+        <div class="page-title">Licenciaturas</div>
+    </div>
+</div>
+<div class="card">
+    <table>
+        <thead><tr><th>Nome</th><th>Instituição</th><th>Ano Início</th><th>Site</th></tr></thead>
+        <tbody>
+        {% for l in licenciaturas %}
+            <tr>
+                <td class="text-dark">{{ l.nome }}</td>
+                <td class="text-muted">{{ l.instituicao }}</td>
+                <td class="text-muted">{{ l.ano_inicio }}</td>
+                <td>{% if l.url %}<a href="{{ l.url }}" target="_blank" class="link-accent">↗ link</a>{% else %}<span class="text-muted">—</span>{% endif %}</td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="4"><div class="empty"><span>🎓</span>Nenhuma licenciatura adicionada ainda.</div></td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

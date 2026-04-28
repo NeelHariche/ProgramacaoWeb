@@ -1,0 +1,45 @@
+{% extends 'portfolio/base.html' %}
+{% block title %}Cursos{% endblock %}
+{% block nav_cursos %}active{% endblock %}
+{% block breadcrumb %}<b>/ escola / cursos</b>{% endblock %}
+{% block content %}
+<div class="page-header">
+    <div>
+        <div class="page-label">// escola</div>
+        <div class="page-title">Cursos</div>
+    </div>
+</div>
+<div class="card">
+    <table>
+        <thead>
+            <tr>
+                <th>Curso</th>
+                <th>Professor</th>
+                <th>Alunos</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for curso in cursos %}
+            <tr>
+                <td>
+                    {% if curso.imagem %}
+                        <img src="{{ curso.imagem.url }}" alt="{{ curso.nome }}" style="height:40px;object-fit:contain;margin-right:10px;vertical-align:middle;">
+                    {% endif %}
+                    <a href="{% url 'curso' curso.id %}" class="text-dark" style="text-decoration:none;">{{ curso.nome }}</a>
+                </td>
+                <td class="text-muted">{{ curso.professor.nome }}</td>
+                <td>
+                    {% for aluno in curso.alunos.all %}
+                        <span class="badge badge-cyan">{{ aluno.nome }}</span>
+                    {% empty %}
+                        <span class="text-muted">Sem alunos</span>
+                    {% endfor %}
+                </td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="3"><div class="empty"><span>🏫</span>Nenhum curso adicionado.</div></td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
