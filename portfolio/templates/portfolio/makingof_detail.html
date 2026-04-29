@@ -1,0 +1,77 @@
+{% extends 'portfolio/base.html' %}
+{% load markdownify %}
+{% block title %}Making Of{% endblock %}
+{% block content %}
+<div class="page-header">
+    <div>
+        <div class="page-label">// processo</div>
+        <div class="page-title">{{ entrada.titulo }}</div>
+    </div>
+    <span class="badge badge-blue">{{ entrada.get_entidade_relacionada_display }}</span>
+</div>
+
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;">
+    {% for m in makingofs %}
+        <a href="{% url 'makingof_detalhe' m.pk %}"
+           class="btn {% if m.pk == entrada.pk %}btn-primary{% else %}btn-ghost{% endif %}">
+            {{ m.titulo }}
+        </a>
+    {% endfor %}
+</div>
+
+{% if entrada.descricao %}
+<div class="card" style="padding:20px;margin-bottom:12px;">
+    <div class="section-label">descrição</div>
+    <div style="font-size:14px;margin-top:8px;line-height:1.6;">{{ entrada.descricao|markdownify }}</div>
+</div>
+{% endif %}
+
+{% if entrada.decisoes_tomadas %}
+<div class="card" style="padding:20px;margin-bottom:12px;">
+    <div class="section-label">decisões tomadas</div>
+    <div style="font-size:14px;margin-top:8px;line-height:1.6;">{{ entrada.decisoes_tomadas|markdownify }}</div>
+</div>
+{% endif %}
+
+{% if entrada.justificacao_modelacao %}
+<div class="card" style="padding:20px;margin-bottom:12px;">
+    <div class="section-label">justificação de modelação</div>
+    <div style="font-size:14px;margin-top:8px;line-height:1.6;">{{ entrada.justificacao_modelacao|markdownify }}</div>
+</div>
+{% endif %}
+
+{% if entrada.erros_encontrados %}
+<div class="card" style="padding:20px;margin-bottom:12px;">
+    <div class="section-label">erros encontrados</div>
+    <div style="font-size:14px;margin-top:8px;line-height:1.6;">{{ entrada.erros_encontrados|markdownify }}</div>
+</div>
+{% endif %}
+
+{% if entrada.correcoes %}
+<div class="card" style="padding:20px;margin-bottom:12px;">
+    <div class="section-label">correções</div>
+    <div style="font-size:14px;margin-top:8px;line-height:1.6;">{{ entrada.correcoes|markdownify }}</div>
+</div>
+{% endif %}
+
+{% if entrada.uso_ia %}
+<div class="card" style="padding:20px;margin-bottom:12px;">
+    <div class="section-label">uso de ia</div>
+    <div style="font-size:14px;margin-top:8px;line-height:1.6;">{{ entrada.uso_ia|markdownify }}</div>
+</div>
+{% endif %}
+
+{% if entrada.foto or entrada.foto2 or entrada.foto3 or entrada.foto4 or entrada.foto5 %}
+<div class="card" style="padding:20px;margin-bottom:12px;">
+    <div class="section-label">fotografias</div>
+    <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:12px;">
+        {% if entrada.foto %}<img src="{{ entrada.foto.url }}" style="max-height:200px;border-radius:8px;border:1px solid var(--border);">{% endif %}
+        {% if entrada.foto2 %}<img src="{{ entrada.foto2.url }}" style="max-height:200px;border-radius:8px;border:1px solid var(--border);">{% endif %}
+        {% if entrada.foto3 %}<img src="{{ entrada.foto3.url }}" style="max-height:200px;border-radius:8px;border:1px solid var(--border);">{% endif %}
+        {% if entrada.foto4 %}<img src="{{ entrada.foto4.url }}" style="max-height:200px;border-radius:8px;border:1px solid var(--border);">{% endif %}
+        {% if entrada.foto5 %}<img src="{{ entrada.foto5.url }}" style="max-height:200px;border-radius:8px;border:1px solid var(--border);">{% endif %}
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

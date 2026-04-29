@@ -33,8 +33,19 @@ class UnidadeCurricular(models.Model):
     def __str__(self):
         return self.nome
 
+class TipoTecnologia(models.Model):
+    TIPO_CHOICES = [
+        ('frontend', 'Frontend'),
+        ('backend', 'Backend'),
+        ('bd', 'Base de Dados'),
+        ('storage', 'Storage'),
+        ('outros', 'Outros'),
+    ]
+    nome = models.CharField(max_length=50, choices=TIPO_CHOICES, unique=True)
 
-
+    def __str__(self):
+        return self.get_nome_display()
+        
 class Tecnologia(models.Model):
     NIVEL_CHOICES = [(1,'Básico'),(2,'Intermédio'),(3,'Avançado')]
     CATEGORIA_CHOICES = [('linguagem','Linguagem'),('framework','Framework'),
@@ -45,10 +56,11 @@ class Tecnologia(models.Model):
     destaque = models.TextField(blank=True, help_text='O que de mais relevante aprendeste')
     categoria = models.CharField(max_length=20, choices=CATEGORIA_CHOICES)
     nivel = models.IntegerField(choices=NIVEL_CHOICES, default=1)
+    tipo = models.ForeignKey(TipoTecnologia, on_delete=models.SET_NULL,
+                             null=True, blank=True, related_name='tecnologias')
 
     def __str__(self):
         return self.nome
-
 
 class Projeto(models.Model):
     nome = models.CharField(max_length=150)

@@ -8,6 +8,7 @@
         <div class="page-label">// portfolio</div>
         <div class="page-title">Projetos</div>
     </div>
+    <a href="{% url 'projeto_criar' %}" class="btn btn-primary">+ Novo Projeto</a>
 </div>
 <div class="cards-grid">
 {% for p in projetos %}
@@ -24,6 +25,10 @@
             {% if p.url_repositorio %}
                 <a href="{{ p.url_repositorio }}" target="_blank" class="link-accent">↗ repo</a>
             {% endif %}
+        </div>
+        <div class="actions" style="margin-top:10px;">
+            <a href="{% url 'projeto_editar' p.pk %}" class="btn btn-edit">✎ Editar</a>
+            <a href="{% url 'projeto_apagar' p.pk %}" class="btn btn-del">✕ Apagar</a>
         </div>
     </div>
 {% empty %}

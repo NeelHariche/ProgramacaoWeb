@@ -8,10 +8,11 @@
         <div class="page-label">// portfolio</div>
         <div class="page-title">Tecnologias</div>
     </div>
+    <a href="{% url 'tecnologia_criar' %}" class="btn btn-primary">+ Nova Tecnologia</a>
 </div>
 <div class="table-card">
     <table>
-        <thead><tr><th>Nome</th><th>Categoria</th><th>Nível</th><th>Site</th></tr></thead>
+        <thead><tr><th>Nome</th><th>Categoria</th><th>Nível</th><th>Site</th><th>Ações</th></tr></thead>
         <tbody>
         {% for t in tecnologias %}
             <tr>
@@ -25,10 +26,14 @@
                         {% endif %}
                     </span>
                 </td>
-                <td>{% if t.url_oficial %}<a href="{{ t.url_oficial }}" target="_blank" class="link-accent">↗ link</a>{% else %}<span class="text-muted">—</span>{% endif %}</td>
+                <td>{% if t.url_tecnologia %}<a href="{{ t.url_tecnologia }}" target="_blank" class="link-accent">↗ link</a>{% else %}<span class="text-muted">—</span>{% endif %}</td>
+                <td><div class="actions">
+                    <a href="{% url 'tecnologia_editar' t.pk %}" class="btn btn-edit">✎ Editar</a>
+                    <a href="{% url 'tecnologia_apagar' t.pk %}" class="btn btn-del">✕ Apagar</a>
+                </div></td>
             </tr>
         {% empty %}
-            <tr><td colspan="4"><div class="empty"><span>◉</span>Nenhuma tecnologia adicionada ainda.</div></td></tr>
+            <tr><td colspan="5"><div class="empty"><span>◉</span>Nenhuma tecnologia adicionada ainda.</div></td></tr>
         {% endfor %}
         </tbody>
     </table>

@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import (
-    Licenciatura, Docente, UnidadeCurricular, Tecnologia,
+    Licenciatura, Docente, UnidadeCurricular,  TipoTecnologia, Tecnologia,
     Projeto, Competencia, Formacao, TFC,
     ExperienciaProfissional, MakingOf
 )
@@ -64,4 +64,6 @@ class TFCAdmin(admin.ModelAdmin):
     search_fields = ['titulo', 'autor']
     filter_horizontal = ['tecnologias', 'competencias']
 
-
+@admin.register(TipoTecnologia)
+class TipoTecnologiaAdmin(admin.ModelAdmin):
+    list_display = ['nome']

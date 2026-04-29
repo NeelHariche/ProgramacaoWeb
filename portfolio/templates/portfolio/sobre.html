@@ -1,0 +1,173 @@
+{% extends 'portfolio/base.html' %}
+{% load markdownify %}
+{% block title %}Sobre esta Aplicação{% endblock %}
+{% block content %}
+
+<div class="page-header">
+    <div>
+        <div class="page-label">// sobre</div>
+        <div class="page-title">Sobre esta Aplicação</div>
+    </div>
+</div>
+
+<div class="section-label">1. arquitetura mvt do django</div>
+<div class="card" style="padding:24px;margin-bottom:24px;">
+    <p style="font-size:14px;color:var(--muted);margin-bottom:16px;">
+        A arquitetura MVT (Model-View-Template) é o padrão de design usado pelo Django.
+        É composta por três componentes principais que trabalham em conjunto para processar
+        pedidos e devolver respostas ao utilizador.
+    </p>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:20px;">
+        <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:16px;">
+            <div style="font-size:11px;color:#2563eb;font-family:'Space Mono',monospace;letter-spacing:1px;margin-bottom:6px;">MODEL</div>
+            <p style="font-size:13px;color:#1e40af;">Define a estrutura dos dados e interage com a base de dados através do ORM Django. Cada classe em models.py representa uma tabela.</p>
+        </div>
+        <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:16px;">
+            <div style="font-size:11px;color:#16a34a;font-family:'Space Mono',monospace;letter-spacing:1px;margin-bottom:6px;">VIEW</div>
+            <p style="font-size:13px;color:#15803d;">Recebe o pedido HTTP, consulta os dados necessários através dos modelos e passa esses dados ao template para renderização.</p>
+        </div>
+        <div style="background:#f5f3ff;border:1px solid #ddd6fe;border-radius:8px;padding:16px;">
+            <div style="font-size:11px;color:#7c3aed;font-family:'Space Mono',monospace;letter-spacing:1px;margin-bottom:6px;">TEMPLATE</div>
+            <p style="font-size:13px;color:#6d28d9;">Ficheiro HTML com sintaxe Django que recebe os dados da view e os apresenta ao utilizador de forma estruturada e visualmente organizada.</p>
+        </div>
+    </div>
+    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:16px;margin-bottom:16px;">
+        <div style="font-size:11px;color:#64748b;font-family:'Space Mono',monospace;letter-spacing:1px;margin-bottom:8px;">FLUXO DE INFORMAÇÃO</div>
+        <p style="font-size:13px;color:#475569;">
+            1. Utilizador faz um pedido no browser (ex: <code>/projetos/</code>)<br>
+            2. Django consulta <strong>urls.py</strong> e encontra a view correspondente<br>
+            3. A <strong>View</strong> vai buscar os dados à base de dados através do <strong>Model</strong><br>
+            4. A View passa os dados ao <strong>Template</strong> HTML<br>
+            5. O Template renderiza o HTML final e devolve ao browser
+        </p>
+    </div>
+    <div style="margin-bottom:16px;">
+        <div style="font-size:11px;color:#64748b;font-family:'Space Mono',monospace;letter-spacing:1px;margin-bottom:8px;">DESENHO EM PAPEL</div>
+        <div style="background:#f1f5f9;border:1px dashed #cbd5e1;border-radius:8px;padding:32px;text-align:center;color:#94a3b8;font-size:13px;">
+            📷 Insere aqui a foto do desenho da arquitetura MVT
+        </div>
+    </div>
+    <div>
+        <div style="font-size:11px;color:#64748b;font-family:'Space Mono',monospace;letter-spacing:1px;margin-bottom:8px;">VÍDEO TUTORIAL</div>
+        <div style="background:#f1f5f9;border:1px dashed #cbd5e1;border-radius:8px;padding:32px;text-align:center;color:#94a3b8;font-size:13px;">
+            🎥 Insere aqui o iframe do vídeo tutorial (após gravação)
+        </div>
+    </div>
+</div>
+
+<div class="section-label">2. modelação</div>
+<div class="card" style="padding:24px;margin-bottom:24px;">
+    <div style="margin-bottom:16px;">
+        <div style="font-size:11px;color:#64748b;font-family:'Space Mono',monospace;letter-spacing:1px;margin-bottom:8px;">DIAGRAMA ENTIDADE-RELAÇÃO</div>
+        <div style="background:#f1f5f9;border:1px dashed #cbd5e1;border-radius:8px;padding:32px;text-align:center;color:#94a3b8;font-size:13px;">
+            📷 Insere aqui a foto do DER desenhado em papel
+        </div>
+    </div>
+    <div>
+        <div style="font-size:11px;color:#64748b;font-family:'Space Mono',monospace;letter-spacing:1px;margin-bottom:8px;">MODELOS DJANGO (models.py)</div>
+        <div style="background:#0f172a;border-radius:8px;padding:16px;overflow-x:auto;">
+            <pre style="color:#e2e8f0;font-size:12px;font-family:'Space Mono',monospace;margin:0;white-space:pre-wrap;">Licenciatura → nome, instituicao, ano_inicio, descricao, url
+
+Docente → nome, email, foto, url_pagina_lusofona
+
+UnidadeCurricular → nome, ano, semestre, ects, descricao, imagem
+    FK → Licenciatura
+    M2M → Docente
+
+TipoTecnologia → nome (choices: frontend, backend, bd, storage, outros)
+
+Tecnologia → nome, logo, url_tecnologia, destaque, categoria, nivel
+    FK → TipoTecnologia
+
+Projeto → nome, descricao, ano, imagem, url_repositorio
+    FK → UnidadeCurricular
+    M2M → Tecnologia
+
+Competencia → nome, tipo, descricao
+    M2M → Tecnologia, Projeto, ExperienciaProfissional
+
+Formacao → nome, instituicao, data_inicio, data_fim, descricao, certificado, url
+    M2M → Tecnologia, Competencia
+
+TFC → titulo, autor, orientador, ano, descricao, url_repositorio, interesse
+    M2M → Tecnologia, Competencia
+
+ExperienciaProfissional → empresa, cargo, data_inicio, data_fim,
+                          descricao_Empresa, descricao_Cargo
+    M2M → Tecnologia
+
+MakingOf → titulo, entidade_relacionada, descricao, decisoes_tomadas,
+           justificacao_modelacao, erros_encontrados, correcoes, uso_ia,
+           foto, foto2, foto3, foto4, foto5</pre>
+        </div>
+    </div>
+</div>
+
+<div class="section-label">3. tecnologias utilizadas</div>
+<div class="table-card" style="margin-bottom:24px;">
+    <table>
+        <thead><tr><th>Nome</th><th>Tipo</th><th>Categoria</th><th>Nível</th></tr></thead>
+        <tbody>
+        {% for t in tecnologias %}
+            <tr>
+                <td class="text-dark">{{ t.nome }}</td>
+                <td>{% if t.tipo %}<span class="badge badge-blue">{{ t.tipo }}</span>{% else %}<span class="text-muted">—</span>{% endif %}</td>
+                <td><span class="badge badge-purple">{{ t.get_categoria_display }}</span></td>
+                <td>
+                    <span class="stars">
+                        {% if t.nivel == 1 %}★☆☆
+                        {% elif t.nivel == 2 %}★★☆
+                        {% elif t.nivel == 3 %}★★★
+                        {% endif %}
+                    </span>
+                </td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="4"><div class="empty"><span>◉</span>Associa tecnologias ao projeto Portfolio no admin.</div></td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="section-label">4. estrutura das páginas</div>
+<div class="card" style="padding:24px;margin-bottom:24px;">
+    <div style="background:#f1f5f9;border:1px dashed #cbd5e1;border-radius:8px;padding:32px;text-align:center;color:#94a3b8;font-size:13px;">
+        📷 Insere aqui o desenho do mapa de navegação da aplicação
+    </div>
+</div>
+
+<div class="section-label">5. repositório github</div>
+<div class="card" style="padding:24px;margin-bottom:24px;">
+    <p style="font-size:14px;margin-bottom:12px;">
+        <a href="{{ github_url }}" target="_blank" class="link-accent" style="font-size:15px;font-weight:600;">↗ {{ github_url }}</a>
+    </p>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:8px;">
+        O Git e o GitHub foram usados ao longo de todo o desenvolvimento para controlo de versões.
+        Cada funcionalidade foi implementada de forma incremental com commits descritivos,
+        permitindo rastrear a evolução do projeto e reverter alterações quando necessário.
+    </p>
+    <p style="font-size:13px;color:var(--muted);">
+        <strong>Vantagens:</strong> histórico completo de alterações, possibilidade de trabalhar
+        em diferentes funcionalidades em paralelo, backup automático na cloud e facilidade
+        de partilha com o docente.
+    </p>
+</div>
+
+<div class="section-label">6. making of</div>
+<div class="table-card" style="margin-bottom:24px;">
+    <table>
+        <thead><tr><th>Título</th><th>Entidade</th></tr></thead>
+        <tbody>
+        {% for m in makingofs %}
+            <tr>
+                <td class="text-dark">{{ m.titulo }}</td>
+                <td><span class="badge badge-blue">{{ m.get_entidade_relacionada_display }}</span></td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="2"><div class="empty"><span>📝</span>Nenhuma entrada no Making Of ainda.</div></td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

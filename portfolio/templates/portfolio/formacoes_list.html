@@ -8,10 +8,11 @@
         <div class="page-label">// portfolio</div>
         <div class="page-title">Formações</div>
     </div>
+    <a href="{% url 'formacao_criar' %}" class="btn btn-primary">+ Nova Formação</a>
 </div>
 <div class="table-card">
     <table>
-        <thead><tr><th>Nome</th><th>Instituição</th><th>Início</th><th>Fim</th></tr></thead>
+        <thead><tr><th>Nome</th><th>Instituição</th><th>Início</th><th>Fim</th><th>Ações</th></tr></thead>
         <tbody>
         {% for f in formacoes %}
             <tr>
@@ -19,9 +20,13 @@
                 <td><span class="badge badge-green">{{ f.instituicao }}</span></td>
                 <td class="text-muted">{{ f.data_inicio }}</td>
                 <td class="text-muted">{{ f.data_fim|default:"Em curso" }}</td>
+                <td><div class="actions">
+                    <a href="{% url 'formacao_editar' f.pk %}" class="btn btn-edit">✎ Editar</a>
+                    <a href="{% url 'formacao_apagar' f.pk %}" class="btn btn-del">✕ Apagar</a>
+                </div></td>
             </tr>
         {% empty %}
-            <tr><td colspan="4"><div class="empty"><span>◷</span>Nenhuma formação adicionada ainda.</div></td></tr>
+            <tr><td colspan="5"><div class="empty"><span>◷</span>Nenhuma formação adicionada ainda.</div></td></tr>
         {% endfor %}
         </tbody>
     </table>
