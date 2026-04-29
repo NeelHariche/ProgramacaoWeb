@@ -1,7 +1,7 @@
 {% extends 'portfolio/base.html' %}
 {% block title %}Docentes{% endblock %}
 {% block nav_doc %}active{% endblock %}
-{% block breadcrumb %}<b>/ docentes</b>{% endblock %}
+{% block subnav_doc %}active{% endblock %}
 {% block content %}
 <div class="page-header">
     <div>
@@ -9,7 +9,7 @@
         <div class="page-title">Docentes</div>
     </div>
 </div>
-<div class="card">
+<div class="table-card">
     <table>
         <thead><tr><th>Docente</th><th>Email</th><th>UCs</th><th>Página Lusófona</th></tr></thead>
         <tbody>
@@ -28,7 +28,7 @@
                 <td class="text-muted">{{ d.email|default:"—" }}</td>
                 <td>
                     {% for uc in d.ucs.all %}
-                        <span class="badge badge-cyan">{{ uc.nome }}</span>
+                        <span class="badge badge-blue">{{ uc.nome }}</span>
                     {% empty %}
                         <span class="text-muted">—</span>
                     {% endfor %}

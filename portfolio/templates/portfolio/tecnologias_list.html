@@ -1,22 +1,22 @@
 {% extends 'portfolio/base.html' %}
 {% block title %}Tecnologias{% endblock %}
 {% block nav_tec %}active{% endblock %}
-{% block breadcrumb %}<b>/ tecnologias</b>{% endblock %}
+{% block subnav_tec %}active{% endblock %}
 {% block content %}
 <div class="page-header">
     <div>
-        <div class="page-label">// portfólio</div>
+        <div class="page-label">// portfolio</div>
         <div class="page-title">Tecnologias</div>
     </div>
 </div>
-<div class="card">
+<div class="table-card">
     <table>
         <thead><tr><th>Nome</th><th>Categoria</th><th>Nível</th><th>Site</th></tr></thead>
         <tbody>
         {% for t in tecnologias %}
             <tr>
                 <td class="text-dark">{{ t.nome }}</td>
-                <td><span class="badge badge-cyan">{{ t.get_categoria_display }}</span></td>
+                <td><span class="badge badge-blue">{{ t.get_categoria_display }}</span></td>
                 <td>
                     <span class="stars">
                         {% if t.nivel == 1 %}★☆☆

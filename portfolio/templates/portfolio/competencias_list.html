@@ -1,15 +1,15 @@
 {% extends 'portfolio/base.html' %}
 {% block title %}Competências{% endblock %}
 {% block nav_comp %}active{% endblock %}
-{% block breadcrumb %}<b>/ competências</b>{% endblock %}
+{% block subnav_comp %}active{% endblock %}
 {% block content %}
 <div class="page-header">
     <div>
-        <div class="page-label">// portfólio</div>
+        <div class="page-label">// portfolio</div>
         <div class="page-title">Competências</div>
     </div>
 </div>
-<div class="card">
+<div class="table-card">
     <table>
         <thead><tr><th>Nome</th><th>Tipo</th><th>Tecnologias</th><th>Descrição</th></tr></thead>
         <tbody>
@@ -18,11 +18,11 @@
                 <td class="text-dark">{{ c.nome }}</td>
                 <td>
                     {% if c.tipo == 'tecnica' %}
-                        <span class="badge badge-cyan">Técnica</span>
+                        <span class="badge badge-blue">Técnica</span>
                     {% elif c.tipo == 'soft' %}
                         <span class="badge badge-green">Soft Skill</span>
                     {% else %}
-                        <span class="badge badge-yellow">Outro</span>
+                        <span class="badge badge-gray">Outro</span>
                     {% endif %}
                 </td>
                 <td>

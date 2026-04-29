@@ -1,7 +1,6 @@
 {% extends 'portfolio/base.html' %}
 {% block title %}Alunos{% endblock %}
 {% block nav_alunos %}active{% endblock %}
-{% block breadcrumb %}<b>/ escola / alunos</b>{% endblock %}
 {% block content %}
 <div class="page-header">
     <div>
@@ -9,15 +8,9 @@
         <div class="page-title">Alunos</div>
     </div>
 </div>
-<div class="card">
+<div class="table-card">
     <table>
-        <thead>
-            <tr>
-                <th>Nome</th>
-                <th>Número</th>
-                <th>Cursos</th>
-            </tr>
-        </thead>
+        <thead><tr><th>Nome</th><th>Número</th><th>Cursos</th></tr></thead>
         <tbody>
         {% for aluno in alunos %}
             <tr>
@@ -25,7 +18,7 @@
                 <td><span class="badge badge-purple">{{ aluno.numero }}</span></td>
                 <td>
                     {% for curso in aluno.cursos.all %}
-                        <a href="{% url 'curso' curso.id %}" class="badge badge-cyan" style="text-decoration:none;margin-right:4px;">{{ curso.nome }}</a>
+                        <a href="{% url 'curso' curso.id %}" class="badge badge-blue" style="text-decoration:none;margin-right:4px;">{{ curso.nome }}</a>
                     {% empty %}
                         <span class="text-muted">Sem cursos</span>
                     {% endfor %}

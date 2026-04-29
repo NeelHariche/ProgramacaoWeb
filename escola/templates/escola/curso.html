@@ -1,24 +1,24 @@
 {% extends 'portfolio/base.html' %}
 {% block title %}{{ curso.nome }}{% endblock %}
 {% block nav_cursos %}active{% endblock %}
-{% block breadcrumb %}<b>/ escola / cursos / {{ curso.nome }}</b>{% endblock %}
+{% block subnav_cursos %}active{% endblock %}
 {% block content %}
 <div class="page-header">
     <div>
-        <div class="page-label">// escola</div>
+        <div class="page-label">// escola / cursos</div>
         <div class="page-title">{{ curso.nome }}</div>
     </div>
 </div>
-<div class="card" style="padding:24px;overflow:visible;">
+<div class="card" style="max-width:600px;padding:24px;">
     {% if curso.imagem %}
-        <img src="{{ curso.imagem.url }}" alt="{{ curso.nome }}" style="height:80px;object-fit:contain;margin-bottom:16px;display:block;">
+        <img src="{{ curso.imagem.url }}" alt="{{ curso.nome }}" style="height:70px;object-fit:contain;margin-bottom:16px;display:block;">
     {% endif %}
-    <p style="margin-bottom:8px;font-size:13px;color:#64748b;font-family:'Space Mono',monospace;letter-spacing:1px;text-transform:uppercase;">Professor</p>
+    <div class="section-label">professor</div>
     <p style="font-size:15px;font-weight:600;color:#0f172a;margin-bottom:20px;">{{ curso.professor.nome }}</p>
-    <p style="margin-bottom:8px;font-size:13px;color:#64748b;font-family:'Space Mono',monospace;letter-spacing:1px;text-transform:uppercase;">Alunos inscritos</p>
-    <div style="display:flex;flex-wrap:wrap;gap:8px;">
+    <div class="section-label">alunos inscritos</div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;">
         {% for aluno in curso.alunos.all %}
-            <span class="badge badge-cyan">{{ aluno.nome }}</span>
+            <span class="badge badge-blue">{{ aluno.nome }}</span>
         {% empty %}
             <span class="text-muted">Sem alunos inscritos</span>
         {% endfor %}

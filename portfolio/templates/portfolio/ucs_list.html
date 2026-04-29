@@ -1,7 +1,7 @@
 {% extends 'portfolio/base.html' %}
 {% block title %}Unidades Curriculares{% endblock %}
 {% block nav_uc %}active{% endblock %}
-{% block breadcrumb %}<b>/ unidades curriculares</b>{% endblock %}
+{% block subnav_uc %}active{% endblock %}
 {% block content %}
 <div class="page-header">
     <div>
@@ -9,7 +9,7 @@
         <div class="page-title">Unidades Curriculares</div>
     </div>
 </div>
-<div class="card">
+<div class="table-card">
     <table>
         <thead><tr><th>Nome</th><th>Ano</th><th>Semestre</th><th>ECTS</th><th>Docentes</th></tr></thead>
         <tbody>
@@ -21,7 +21,7 @@
                 <td><span class="badge badge-green">{{ uc.ects }}</span></td>
                 <td>
                     {% for docente in uc.docentes.all %}
-                        <span class="badge badge-cyan">{{ docente.nome }}</span>
+                        <span class="badge badge-blue">{{ docente.nome }}</span>
                     {% empty %}
                         <span class="text-muted">—</span>
                     {% endfor %}

@@ -1,7 +1,6 @@
 {% extends 'portfolio/base.html' %}
 {% block title %}Professores{% endblock %}
 {% block nav_profs %}active{% endblock %}
-{% block breadcrumb %}<b>/ escola / professores</b>{% endblock %}
 {% block content %}
 <div class="page-header">
     <div>
@@ -9,15 +8,9 @@
         <div class="page-title">Professores</div>
     </div>
 </div>
-<div class="card">
+<div class="table-card">
     <table>
-        <thead>
-            <tr>
-                <th>Docente</th>
-                <th>Email</th>
-                <th>Cursos que leciona</th>
-            </tr>
-        </thead>
+        <thead><tr><th>Docente</th><th>Email</th><th>Cursos que leciona</th></tr></thead>
         <tbody>
         {% for professor in professores %}
             <tr>
@@ -34,7 +27,7 @@
                 <td class="text-muted">{{ professor.email|default:"—" }}</td>
                 <td>
                     {% for curso in professor.cursos.all %}
-                        <a href="{% url 'curso' curso.id %}" class="badge badge-cyan" style="text-decoration:none;margin-right:4px;">{{ curso.nome }}</a>
+                        <a href="{% url 'curso' curso.id %}" class="badge badge-blue" style="text-decoration:none;margin-right:4px;">{{ curso.nome }}</a>
                     {% empty %}
                         <span class="text-muted">Sem cursos</span>
                     {% endfor %}
