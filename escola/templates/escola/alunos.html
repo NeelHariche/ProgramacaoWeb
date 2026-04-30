@@ -1,5 +1,6 @@
 {% extends 'portfolio/base.html' %}
 {% block title %}Alunos{% endblock %}
+{% block nav_escola %}active{% endblock %}
 {% block nav_alunos %}active{% endblock %}
 {% block content %}
 <div class="page-header">
@@ -8,26 +9,21 @@
         <div class="page-title">Alunos</div>
     </div>
 </div>
-<div class="table-card">
-    <table>
-        <thead><tr><th>Nome</th><th>Número</th><th>Cursos</th></tr></thead>
-        <tbody>
-        {% for aluno in alunos %}
-            <tr>
-                <td class="text-dark">{{ aluno.nome }}</td>
-                <td><span class="badge badge-purple">{{ aluno.numero }}</span></td>
-                <td>
-                    {% for curso in aluno.cursos.all %}
-                        <a href="{% url 'curso' curso.id %}" class="badge badge-blue" style="text-decoration:none;margin-right:4px;">{{ curso.nome }}</a>
-                    {% empty %}
-                        <span class="text-muted">Sem cursos</span>
-                    {% endfor %}
-                </td>
-            </tr>
-        {% empty %}
-            <tr><td colspan="3"><div class="empty"><span>🎒</span>Nenhum aluno adicionado.</div></td></tr>
-        {% endfor %}
-        </tbody>
-    </table>
+<div class="cards-grid">
+{% for aluno in alunos %}
+    <div class="card">
+        <div class="card-title">{{ aluno.nome }}</div>
+        <div style="font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;font-family:'Space Mono',monospace;margin:10px 0 6px;">Cursos</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;">
+            {% for curso in aluno.cursos.all %}
+                <a href="{% url 'curso' curso.id %}" class="badge badge-blue" style="text-decoration:none;">{{ curso.nome }}</a>
+            {% empty %}
+                <span class="text-muted">Sem cursos</span>
+            {% endfor %}
+        </div>
+    </div>
+{% empty %}
+    <p class="text-muted">Nenhum aluno adicionado.</p>
+{% endfor %}
 </div>
 {% endblock %}

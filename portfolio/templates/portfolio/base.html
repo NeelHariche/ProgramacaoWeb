@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Portfólio{% endblock %}</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --grad: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 50%, #6366f1 100%);
@@ -17,7 +17,6 @@
         * { margin:0; padding:0; box-sizing:border-box; }
         body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; min-height:100vh; }
 
-        /* ── TOPBAR ── */
         .topbar {
             background: var(--grad);
             padding: 0 32px;
@@ -32,9 +31,28 @@
         }
         .brand { color: #fff; font-size: 16px; font-weight: 500; letter-spacing: 0.5px; text-decoration: none; }
         .brand span { opacity: 0.7; font-size: 12px; margin-left: 8px; font-family: 'Space Mono', monospace; }
-        .topnav { display: flex; gap: 4px; }
-        .topnav a {
-            color: rgba(255,255,255,0.75);
+        .topnav { display: flex; gap: 4px; align-items: center; }
+
+        .nav-item { position: relative; }
+        .nav-btn {
+            color: rgba(255,255,255,0.8);
+            background: none;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-family: 'Inter', sans-serif;
+            transition: all .15s;
+        }
+        .nav-btn:hover, .nav-btn.active { background: rgba(255,255,255,0.2); color: #fff; }
+        .nav-arrow { font-size: 9px; opacity: 0.7; }
+        .nav-plain {
+            color: rgba(255,255,255,0.8);
             text-decoration: none;
             padding: 6px 14px;
             border-radius: 6px;
@@ -42,40 +60,39 @@
             font-weight: 500;
             transition: all .15s;
         }
-        .topnav a:hover { background: rgba(255,255,255,0.15); color: #fff; }
-        .topnav a.active { background: rgba(255,255,255,0.2); color: #fff; }
+        .nav-plain:hover, .nav-plain.active { background: rgba(255,255,255,0.2); color: #fff; }
 
-        /* ── SUBNAV ── */
-        .subnav {
-            background: rgba(255,255,255,0.97);
-            border-bottom: 1px solid var(--border);
-            padding: 0 32px;
-            height: 40px;
+        .dropdown {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            background: var(--bg2);
+            border: 0.5px solid var(--border);
+            border-radius: 10px;
+            padding: 6px;
+            min-width: 200px;
+            z-index: 200;
+            display: none;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+        }
+        .dropdown.show { display: block; }
+        .dropdown a {
             display: flex;
             align-items: center;
-            gap: 4px;
-            position: sticky;
-            top: 60px;
-            z-index: 99;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-        }
-        .subnav a {
-            color: var(--muted);
+            gap: 10px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            color: var(--text);
             text-decoration: none;
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: 500;
-            transition: all .15s;
+            transition: all .12s;
         }
-        .subnav a:hover { background: var(--blue-light); color: var(--blue); }
-        .subnav a.active { background: var(--blue-light); color: var(--blue); }
-        .subnav-sep { color: var(--border); margin: 0 4px; font-size: 12px; }
+        .dropdown a:hover, .dropdown a.active { background: var(--blue-light); color: var(--blue); }
+        .dropdown-sep { height: 1px; background: var(--border); margin: 4px 0; }
+        .drop-ico { font-size: 14px; width: 20px; text-align: center; }
 
-        /* ── CONTENT ── */
         .content { padding: 28px 32px; max-width: 1000px; }
 
-        /* ── PAGE HEADER ── */
         .page-header {
             display: flex;
             align-items: flex-end;
@@ -94,7 +111,6 @@
         }
         .page-title { font-size: 22px; font-weight: 600; color: var(--text); }
 
-        /* ── HERO ── */
         .hero {
             background: linear-gradient(135deg, #eff6ff, #eef2ff);
             border: 1px solid var(--blue-border);
@@ -120,7 +136,6 @@
             font-weight: 500;
         }
 
-        /* ── STATS ── */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
@@ -155,7 +170,6 @@
             margin-top: 4px;
         }
 
-        /* ── CARDS ── */
         .cards-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -192,7 +206,6 @@
             border-top: 1px solid var(--bg3);
         }
 
-        /* ── TABLE ── */
         .table-card {
             background: var(--bg2);
             border: 1px solid var(--border);
@@ -223,7 +236,6 @@
         tr:last-child td { border-bottom: none; }
         tbody tr:hover { background: #f8faff; }
 
-        /* ── BADGES ── */
         .badge {
             display: inline-block;
             padding: 3px 10px;
@@ -236,7 +248,6 @@
         .badge-green { background: var(--green-light); color: var(--green); border: 1px solid var(--green-border); }
         .badge-gray { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
 
-        /* ── BUTTONS ── */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -251,13 +262,8 @@
             transition: all .15s;
             font-family: 'Inter', sans-serif;
         }
-        .btn-primary {
-            background: var(--grad);
-            color: #fff;
-            border: none;
-            box-shadow: 0 2px 8px rgba(59,130,246,0.3);
-        }
-        .btn-primary:hover { opacity: 0.9; box-shadow: 0 4px 12px rgba(59,130,246,0.4); }
+        .btn-primary { background: var(--grad); color: #fff; border: none; box-shadow: 0 2px 8px rgba(59,130,246,0.3); }
+        .btn-primary:hover { opacity: 0.9; }
         .btn-edit { background: transparent; color: #d97706; border-color: #fde68a; }
         .btn-edit:hover { background: #fffbeb; }
         .btn-del { background: transparent; color: #dc2626; border-color: #fecaca; }
@@ -266,7 +272,6 @@
         .btn-ghost:hover { color: var(--text); border-color: #cbd5e1; }
         .actions { display: flex; gap: 6px; }
 
-        /* ── FORMS ── */
         .form-card {
             background: var(--bg2);
             border: 1px solid var(--border);
@@ -307,7 +312,6 @@
         .form-card input[type="checkbox"] { width: auto; margin-right: 7px; }
         .form-actions { display: flex; gap: 10px; margin-top: 22px; }
 
-        /* ── CONFIRM BOX ── */
         .confirm-box {
             background: #fff5f5;
             border: 1px solid #fecaca;
@@ -317,7 +321,6 @@
         }
         .confirm-box p { font-size: 14px; margin-bottom: 20px; color: var(--text); }
 
-        /* ── MISC ── */
         .empty { padding: 48px; text-align: center; color: var(--muted); font-size: 13px; }
         .empty span { display: block; font-size: 28px; margin-bottom: 10px; }
         .text-muted { color: var(--muted); }
@@ -347,43 +350,71 @@
 </head>
 <body>
 
-<!-- TOPBAR -->
 <header class="topbar">
     <a href="/" class="brand">Neel Hariche <span>// portfolio</span></a>
     <nav class="topnav">
-        <a href="/" class="{% block nav_home %}{% endblock %}">Início</a>
-        <a href="/licenciaturas/" class="{% block nav_lic %}{% endblock %} {% block nav_uc %}{% endblock %} {% block nav_doc %}{% endblock %}">Académico</a>
-        <a href="/projetos/" class="{% block nav_proj %}{% endblock %} {% block nav_tec %}{% endblock %} {% block nav_comp %}{% endblock %} {% block nav_form %}{% endblock %} {% block nav_tfc %}{% endblock %}">Portfolio</a>
-        <a href="/escola/cursos/" class="{% block nav_cursos %}{% endblock %} {% block nav_profs %}{% endblock %} {% block nav_alunos %}{% endblock %}">Escola</a>
-        <a href="/admin/">Admin</a>
+        <a href="/" class="nav-plain {% block nav_home %}{% endblock %}">Início</a>
+
+        <div class="nav-item">
+            <button class="nav-btn {% block nav_academico %}{% endblock %}" onclick="toggleDropdown('dd-academico')">
+                Académico <span class="nav-arrow">▼</span>
+            </button>
+            <div class="dropdown" id="dd-academico">
+                <a href="/licenciaturas/" class="{% block nav_lic %}{% endblock %}"><span class="drop-ico">🎓</span> Licenciaturas</a>
+                <a href="/ucs/" class="{% block nav_uc %}{% endblock %}"><span class="drop-ico">📚</span> Unid. Curriculares</a>
+                <a href="/docentes/" class="{% block nav_doc %}{% endblock %}"><span class="drop-ico">👤</span> Docentes</a>
+            </div>
+        </div>
+
+        <div class="nav-item">
+            <button class="nav-btn {% block nav_portfolio %}{% endblock %}" onclick="toggleDropdown('dd-portfolio')">
+                Portfolio <span class="nav-arrow">▼</span>
+            </button>
+            <div class="dropdown" id="dd-portfolio">
+                <a href="/projetos/" class="{% block nav_proj %}{% endblock %}"><span class="drop-ico">◈</span> Projetos</a>
+                <a href="/tecnologias/" class="{% block nav_tec %}{% endblock %}"><span class="drop-ico">◉</span> Tecnologias</a>
+                <a href="/competencias/" class="{% block nav_comp %}{% endblock %}"><span class="drop-ico">◎</span> Competências</a>
+                <a href="/formacoes/" class="{% block nav_form %}{% endblock %}"><span class="drop-ico">◷</span> Formações</a>
+                <a href="/tfcs/" class="{% block nav_tfc %}{% endblock %}"><span class="drop-ico">◌</span> TFCs</a>
+                <div class="dropdown-sep"></div>
+                <a href="/experiencias/" class="{% block nav_exp %}{% endblock %}"><span class="drop-ico">💼</span> Experiência</a>
+                <a href="/makingof/" class="{% block nav_makingof %}{% endblock %}"><span class="drop-ico">📝</span> Making Of</a>
+                <a href="/sobre/" class="{% block nav_sobre %}{% endblock %}"><span class="drop-ico">ℹ</span> Sobre</a>
+            </div>
+        </div>
+
+        <div class="nav-item">
+            <button class="nav-btn {% block nav_escola %}{% endblock %}" onclick="toggleDropdown('dd-escola')">
+                Escola <span class="nav-arrow">▼</span>
+            </button>
+            <div class="dropdown" id="dd-escola">
+                <a href="/escola/cursos/" class="{% block nav_cursos %}{% endblock %}"><span class="drop-ico">🏫</span> Cursos</a>
+                <a href="/escola/professores/" class="{% block nav_profs %}{% endblock %}"><span class="drop-ico">👨‍🏫</span> Professores</a>
+                <a href="/escola/alunos/" class="{% block nav_alunos %}{% endblock %}"><span class="drop-ico">🎒</span> Alunos</a>
+            </div>
+        </div>
+
+        <a href="/admin/" class="nav-plain">⚙ Admin</a>
     </nav>
 </header>
 
-<!-- SUBNAV -->
-<nav class="subnav">
-    <a href="/licenciaturas/" class="{% block subnav_lic %}{% endblock %}">Licenciaturas</a>
-    <span class="subnav-sep">·</span>
-    <a href="/ucs/" class="{% block subnav_uc %}{% endblock %}">UCs</a>
-    <span class="subnav-sep">·</span>
-    <a href="/docentes/" class="{% block subnav_doc %}{% endblock %}">Docentes</a>
-    <span class="subnav-sep">·</span>
-    <a href="/projetos/" class="{% block subnav_proj %}{% endblock %}">Projetos</a>
-    <span class="subnav-sep">·</span>
-    <a href="/tecnologias/" class="{% block subnav_tec %}{% endblock %}">Tecnologias</a>
-    <span class="subnav-sep">·</span>
-    <a href="/competencias/" class="{% block subnav_comp %}{% endblock %}">Competências</a>
-    <span class="subnav-sep">·</span>
-    <a href="/formacoes/" class="{% block subnav_form %}{% endblock %}">Formações</a>
-    <span class="subnav-sep">·</span>
-    <a href="/tfcs/" class="{% block subnav_tfc %}{% endblock %}">TFCs</a>
-    <span class="subnav-sep">·</span>
-    <a href="/escola/cursos/" class="{% block subnav_cursos %}{% endblock %}">Escola</a>
-</nav>
-
-<!-- MAIN CONTENT -->
 <main class="content">
     {% block content %}{% endblock %}
 </main>
+
+<script>
+function toggleDropdown(id) {
+    document.querySelectorAll('.dropdown').forEach(d => {
+        if (d.id !== id) d.classList.remove('show');
+    });
+    document.getElementById(id).classList.toggle('show');
+}
+document.addEventListener('click', e => {
+    if (!e.target.closest('.nav-item')) {
+        document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('show'));
+    }
+});
+</script>
 
 </body>
 </html>

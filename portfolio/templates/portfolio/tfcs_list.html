@@ -1,11 +1,11 @@
 {% extends 'portfolio/base.html' %}
 {% block title %}TFCs{% endblock %}
+{% block nav_portfolio %}active{% endblock %}
 {% block nav_tfc %}active{% endblock %}
-{% block subnav_tfc %}active{% endblock %}
 {% block content %}
 <div class="page-header">
     <div>
-        <div class="page-label">// portfolio</div>
+        <div class="page-label">// trabalhos finais</div>
         <div class="page-title">TFCs</div>
     </div>
 </div>
@@ -18,16 +18,7 @@
                 <td class="text-dark">{{ t.titulo }}</td>
                 <td class="text-muted">{{ t.autor }}</td>
                 <td class="text-muted">{{ t.ano }}</td>
-                <td>
-                    <span class="stars">
-                        {% if t.interesse == 1 %}★☆☆☆☆
-                        {% elif t.interesse == 2 %}★★☆☆☆
-                        {% elif t.interesse == 3 %}★★★☆☆
-                        {% elif t.interesse == 4 %}★★★★☆
-                        {% elif t.interesse == 5 %}★★★★★
-                        {% endif %}
-                    </span>
-                </td>
+                <td><span class="stars">{% if t.interesse == 1 %}★☆☆☆☆{% elif t.interesse == 2 %}★★☆☆☆{% elif t.interesse == 3 %}★★★☆☆{% elif t.interesse == 4 %}★★★★☆{% elif t.interesse == 5 %}★★★★★{% endif %}</span></td>
                 <td>{% if t.url_repositorio %}<a href="{{ t.url_repositorio }}" target="_blank" class="link-accent">↗ repo</a>{% else %}<span class="text-muted">—</span>{% endif %}</td>
             </tr>
         {% empty %}

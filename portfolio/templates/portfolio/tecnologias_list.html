@@ -1,7 +1,7 @@
 {% extends 'portfolio/base.html' %}
 {% block title %}Tecnologias{% endblock %}
+{% block nav_portfolio %}active{% endblock %}
 {% block nav_tec %}active{% endblock %}
-{% block subnav_tec %}active{% endblock %}
 {% block content %}
 <div class="page-header">
     <div>
@@ -18,14 +18,7 @@
             <tr>
                 <td class="text-dark">{{ t.nome }}</td>
                 <td><span class="badge badge-blue">{{ t.get_categoria_display }}</span></td>
-                <td>
-                    <span class="stars">
-                        {% if t.nivel == 1 %}★☆☆
-                        {% elif t.nivel == 2 %}★★☆
-                        {% elif t.nivel == 3 %}★★★
-                        {% endif %}
-                    </span>
-                </td>
+                <td><span class="stars">{% if t.nivel == 1 %}★☆☆{% elif t.nivel == 2 %}★★☆{% elif t.nivel == 3 %}★★★{% endif %}</span></td>
                 <td>{% if t.url_tecnologia %}<a href="{{ t.url_tecnologia }}" target="_blank" class="link-accent">↗ link</a>{% else %}<span class="text-muted">—</span>{% endif %}</td>
                 <td><div class="actions">
                     <a href="{% url 'tecnologia_editar' t.pk %}" class="btn btn-edit">✎ Editar</a>

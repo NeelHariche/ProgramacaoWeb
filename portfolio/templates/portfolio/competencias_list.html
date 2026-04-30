@@ -1,7 +1,7 @@
 {% extends 'portfolio/base.html' %}
 {% block title %}Competências{% endblock %}
+{% block nav_portfolio %}active{% endblock %}
 {% block nav_comp %}active{% endblock %}
-{% block subnav_comp %}active{% endblock %}
 {% block content %}
 <div class="page-header">
     <div>
@@ -17,22 +17,8 @@
         {% for c in competencias %}
             <tr>
                 <td class="text-dark">{{ c.nome }}</td>
-                <td>
-                    {% if c.tipo == 'tecnica' %}
-                        <span class="badge badge-blue">Técnica</span>
-                    {% elif c.tipo == 'soft' %}
-                        <span class="badge badge-green">Soft Skill</span>
-                    {% else %}
-                        <span class="badge badge-gray">Outro</span>
-                    {% endif %}
-                </td>
-                <td>
-                    {% for t in c.tecnologias.all %}
-                        <span class="badge badge-purple">{{ t.nome }}</span>
-                    {% empty %}
-                        <span class="text-muted">—</span>
-                    {% endfor %}
-                </td>
+                <td>{% if c.tipo == 'tecnica' %}<span class="badge badge-blue">Técnica</span>{% elif c.tipo == 'soft' %}<span class="badge badge-green">Soft Skill</span>{% else %}<span class="badge badge-gray">Outro</span>{% endif %}</td>
+                <td>{% for t in c.tecnologias.all %}<span class="badge badge-purple">{{ t.nome }}</span>{% empty %}<span class="text-muted">—</span>{% endfor %}</td>
                 <td class="text-muted">{{ c.descricao|truncatechars:50 }}</td>
                 <td><div class="actions">
                     <a href="{% url 'competencia_editar' c.pk %}" class="btn btn-edit">✎ Editar</a>

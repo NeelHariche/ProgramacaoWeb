@@ -1,7 +1,7 @@
 {% extends 'portfolio/base.html' %}
 {% block title %}Docentes{% endblock %}
+{% block nav_academico %}active{% endblock %}
 {% block nav_doc %}active{% endblock %}
-{% block subnav_doc %}active{% endblock %}
 {% block content %}
 <div class="page-header">
     <div>
@@ -17,11 +17,8 @@
             <tr>
                 <td>
                     <div class="docente-cell">
-                        {% if d.foto %}
-                            <img src="{{ d.foto.url }}" alt="{{ d.nome }}" class="docente-avatar">
-                        {% else %}
-                            <div class="docente-avatar-placeholder">👤</div>
-                        {% endif %}
+                        {% if d.foto %}<img src="{{ d.foto.url }}" alt="{{ d.nome }}" class="docente-avatar">
+                        {% else %}<div class="docente-avatar-placeholder">👤</div>{% endif %}
                         <span class="docente-name">{{ d.nome }}</span>
                     </div>
                 </td>
@@ -29,9 +26,7 @@
                 <td>
                     {% for uc in d.ucs.all %}
                         <span class="badge badge-blue">{{ uc.nome }}</span>
-                    {% empty %}
-                        <span class="text-muted">—</span>
-                    {% endfor %}
+                    {% empty %}<span class="text-muted">—</span>{% endfor %}
                 </td>
                 <td>{% if d.url_pagina_lusofona %}<a href="{{ d.url_pagina_lusofona }}" target="_blank" class="link-accent">↗ perfil</a>{% else %}<span class="text-muted">—</span>{% endif %}</td>
             </tr>

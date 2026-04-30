@@ -3,7 +3,7 @@ from django.db import models
 
 class Professor(models.Model):
     nome = models.CharField(max_length=100)
-    email = models.EmailField()
+    email = models.EmailField(blank=True, null=True)
     foto = models.ImageField(upload_to='professores/', blank=True, null=True)
 
     def __str__(self):
@@ -11,7 +11,7 @@ class Professor(models.Model):
 
 class Aluno(models.Model):
     nome = models.CharField(max_length=100)
-    numero = models.CharField(max_length=20, unique=True)
+    numero = models.CharField(max_length=20, unique=True, blank=True, null=True)
 
     def __str__(self):
         return self.nome

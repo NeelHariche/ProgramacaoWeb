@@ -23,6 +23,7 @@ urlpatterns = [
     path('formacoes/nova/', views.formacao_criar, name='formacao_criar'),
     path('formacoes/<int:pk>/editar/', views.formacao_editar, name='formacao_editar'),
     path('formacoes/<int:pk>/apagar/', views.formacao_apagar, name='formacao_apagar'),
+    path('experiencias/', views.experiencias_view, name='experiencias'),
     path('sobre/', views.sobre_view, name='sobre'),
     path('makingof/', views.makingof_view, name='makingof'),
     path('makingof/<int:pk>/', views.makingof_view, name='makingof_detalhe'),

@@ -17,6 +17,7 @@ def home_view(request):
         'num_tfcs': TFC.objects.count(),
         'num_cursos': Curso.objects.count(),
         'num_alunos': Aluno.objects.count(),
+        'num_experiencias': ExperienciaProfissional.objects.count(),
     })
 
 def licenciaturas_view(request):
@@ -139,14 +140,27 @@ def tfcs_view(request):
     tfcs = TFC.objects.prefetch_related('tecnologias').all().order_by('-interesse')
     return render(request, 'portfolio/tfcs_list.html', {'tfcs': tfcs})
 
+def experiencias_view(request):
+    experiencias = ExperienciaProfissional.objects.prefetch_related('tecnologias').all()
+    return render(request, 'portfolio/experiencias_list.html', {'experiencias': experiencias})
+
 def sobre_view(request):
+    from .models import TipoTecnologia
     projeto_portfolio = Projeto.objects.filter(nome__icontains='Portfolio').first()
     tecnologias = projeto_portfolio.tecnologias.all() if projeto_portfolio else Tecnologia.objects.none()
+    tipos = TipoTecnologia.objects.prefetch_related('tecnologias').all()
     makingofs = MakingOf.objects.all().order_by('id')[:3]
+    mvt = MakingOf.objects.filter(titulo__icontains='MVT').first()
+    der = MakingOf.objects.filter(titulo__icontains='DER').first()
+    navegacao = MakingOf.objects.filter(titulo__icontains='navega').first()
     return render(request, 'portfolio/sobre.html', {
         'tecnologias': tecnologias,
+        'tipos': tipos,
         'makingofs': makingofs,
         'github_url': 'https://github.com/NeelHariche/ProgramacaoWeb',
+        'mvt': mvt,
+        'der': der,
+        'navegacao': navegacao,
     })
 
 def makingof_view(request, pk=None):

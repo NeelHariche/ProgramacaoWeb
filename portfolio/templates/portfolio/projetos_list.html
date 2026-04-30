@@ -1,7 +1,7 @@
 {% extends 'portfolio/base.html' %}
 {% block title %}Projetos{% endblock %}
+{% block nav_portfolio %}active{% endblock %}
 {% block nav_proj %}active{% endblock %}
-{% block subnav_proj %}active{% endblock %}
 {% block content %}
 <div class="page-header">
     <div>
@@ -17,14 +17,8 @@
         <div class="card-title">{{ p.nome }}</div>
         <div class="card-sub">{{ p.descricao|truncatechars:80 }}</div>
         <div class="card-footer">
-            <div>
-                {% for t in p.tecnologias.all %}
-                    <span class="badge badge-purple">{{ t.nome }}</span>
-                {% endfor %}
-            </div>
-            {% if p.url_repositorio %}
-                <a href="{{ p.url_repositorio }}" target="_blank" class="link-accent">↗ repo</a>
-            {% endif %}
+            <div>{% for t in p.tecnologias.all %}<span class="badge badge-purple">{{ t.nome }}</span>{% endfor %}</div>
+            {% if p.url_repositorio %}<a href="{{ p.url_repositorio }}" target="_blank" class="link-accent">↗ repo</a>{% endif %}
         </div>
         <div class="actions" style="margin-top:10px;">
             <a href="{% url 'projeto_editar' p.pk %}" class="btn btn-edit">✎ Editar</a>

@@ -1,5 +1,6 @@
 {% extends 'portfolio/base.html' %}
 {% block title %}Professores{% endblock %}
+{% block nav_escola %}active{% endblock %}
 {% block nav_profs %}active{% endblock %}
 {% block content %}
 <div class="page-header">
@@ -8,35 +9,28 @@
         <div class="page-title">Professores</div>
     </div>
 </div>
-<div class="table-card">
-    <table>
-        <thead><tr><th>Docente</th><th>Email</th><th>Cursos que leciona</th></tr></thead>
-        <tbody>
-        {% for professor in professores %}
-            <tr>
-                <td>
-                    <div class="docente-cell">
-                        {% if professor.foto %}
-                            <img src="{{ professor.foto.url }}" alt="{{ professor.nome }}" class="docente-avatar">
-                        {% else %}
-                            <div class="docente-avatar-placeholder">👤</div>
-                        {% endif %}
-                        <span class="docente-name">{{ professor.nome }}</span>
-                    </div>
-                </td>
-                <td class="text-muted">{{ professor.email|default:"—" }}</td>
-                <td>
-                    {% for curso in professor.cursos.all %}
-                        <a href="{% url 'curso' curso.id %}" class="badge badge-blue" style="text-decoration:none;margin-right:4px;">{{ curso.nome }}</a>
-                    {% empty %}
-                        <span class="text-muted">Sem cursos</span>
-                    {% endfor %}
-                </td>
-            </tr>
-        {% empty %}
-            <tr><td colspan="3"><div class="empty"><span>👨‍🏫</span>Nenhum professor adicionado.</div></td></tr>
-        {% endfor %}
-        </tbody>
-    </table>
+<div class="cards-grid">
+{% for professor in professores %}
+    <div class="card">
+        <div class="docente-cell" style="margin-bottom:10px;">
+            {% if professor.foto %}
+                <img src="{{ professor.foto.url }}" alt="{{ professor.nome }}" class="docente-avatar">
+            {% else %}
+                <div class="docente-avatar-placeholder">👤</div>
+            {% endif %}
+            <span class="docente-name">{{ professor.nome }}</span>
+        </div>
+        <div style="font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;font-family:'Space Mono',monospace;margin-bottom:6px;">Cursos</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;">
+            {% for curso in professor.cursos.all %}
+                <a href="{% url 'curso' curso.id %}" class="badge badge-blue" style="text-decoration:none;">{{ curso.nome }}</a>
+            {% empty %}
+                <span class="text-muted">Sem cursos</span>
+            {% endfor %}
+        </div>
+    </div>
+{% empty %}
+    <p class="text-muted">Nenhum professor adicionado.</p>
+{% endfor %}
 </div>
 {% endblock %}

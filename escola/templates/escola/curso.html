@@ -1,7 +1,7 @@
 {% extends 'portfolio/base.html' %}
 {% block title %}{{ curso.nome }}{% endblock %}
+{% block nav_escola %}active{% endblock %}
 {% block nav_cursos %}active{% endblock %}
-{% block subnav_cursos %}active{% endblock %}
 {% block content %}
 <div class="page-header">
     <div>
@@ -10,18 +10,13 @@
     </div>
 </div>
 <div class="card" style="max-width:600px;padding:24px;">
-    {% if curso.imagem %}
-        <img src="{{ curso.imagem.url }}" alt="{{ curso.nome }}" style="height:70px;object-fit:contain;margin-bottom:16px;display:block;">
-    {% endif %}
+    {% if curso.imagem %}<img src="{{ curso.imagem.url }}" alt="{{ curso.nome }}" style="height:70px;object-fit:contain;margin-bottom:16px;display:block;">{% endif %}
     <div class="section-label">professor</div>
     <p style="font-size:15px;font-weight:600;color:#0f172a;margin-bottom:20px;">{{ curso.professor.nome }}</p>
     <div class="section-label">alunos inscritos</div>
     <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;">
-        {% for aluno in curso.alunos.all %}
-            <span class="badge badge-blue">{{ aluno.nome }}</span>
-        {% empty %}
-            <span class="text-muted">Sem alunos inscritos</span>
-        {% endfor %}
+        {% for aluno in curso.alunos.all %}<span class="badge badge-blue">{{ aluno.nome }}</span>
+        {% empty %}<span class="text-muted">Sem alunos inscritos</span>{% endfor %}
     </div>
 </div>
 {% endblock %}

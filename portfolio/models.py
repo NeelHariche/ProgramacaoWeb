@@ -45,7 +45,7 @@ class TipoTecnologia(models.Model):
 
     def __str__(self):
         return self.get_nome_display()
-        
+
 class Tecnologia(models.Model):
     NIVEL_CHOICES = [(1,'Básico'),(2,'Intermédio'),(3,'Avançado')]
     CATEGORIA_CHOICES = [('linguagem','Linguagem'),('framework','Framework'),
@@ -150,8 +150,8 @@ class MakingOf(models.Model):
         ('MakingOf','MakingOf'),
     ]
     titulo = models.CharField(max_length=200)
-    entidade_relacionada = models.CharField(max_length=30, choices=ENTIDADE_CHOICES)
-    descricao = models.TextField()
+    entidade_relacionada = models.CharField(max_length=30, choices=ENTIDADE_CHOICES,blank=True, null=True)
+    descricao = models.TextField(blank=True, null=True)
     decisoes_tomadas = models.TextField(blank=True)
     justificacao_modelacao = models.TextField(blank=True)  
     erros_encontrados = models.TextField(blank=True)

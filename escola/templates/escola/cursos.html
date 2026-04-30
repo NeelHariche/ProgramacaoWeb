@@ -1,7 +1,7 @@
 {% extends 'portfolio/base.html' %}
 {% block title %}Cursos{% endblock %}
+{% block nav_escola %}active{% endblock %}
 {% block nav_cursos %}active{% endblock %}
-{% block subnav_cursos %}active{% endblock %}
 {% block content %}
 <div class="page-header">
     <div>
@@ -9,31 +9,27 @@
         <div class="page-title">Cursos</div>
     </div>
 </div>
-<div class="table-card">
-    <table>
-        <thead><tr><th>Curso</th><th>Professor</th><th>Alunos</th></tr></thead>
-        <tbody>
-        {% for curso in cursos %}
-            <tr>
-                <td>
-                    {% if curso.imagem %}
-                        <img src="{{ curso.imagem.url }}" alt="{{ curso.nome }}" style="height:36px;object-fit:contain;margin-right:10px;vertical-align:middle;">
-                    {% endif %}
-                    <a href="{% url 'curso' curso.id %}" class="text-dark" style="text-decoration:none;">{{ curso.nome }}</a>
-                </td>
-                <td class="text-muted">{{ curso.professor.nome }}</td>
-                <td>
-                    {% for aluno in curso.alunos.all %}
-                        <span class="badge badge-blue">{{ aluno.nome }}</span>
-                    {% empty %}
-                        <span class="text-muted">Sem alunos</span>
-                    {% endfor %}
-                </td>
-            </tr>
-        {% empty %}
-            <tr><td colspan="3"><div class="empty"><span>🏫</span>Nenhum curso adicionado.</div></td></tr>
-        {% endfor %}
-        </tbody>
-    </table>
+<div class="cards-grid">
+{% for curso in cursos %}
+    <div class="card">
+        {% if curso.imagem %}
+            <img src="{{ curso.imagem.url }}" alt="{{ curso.nome }}" style="height:80px;object-fit:contain;margin-bottom:12px;display:block;">
+        {% endif %}
+        <a href="{% url 'curso' curso.id %}" style="text-decoration:none;">
+            <div class="card-title">{{ curso.nome }}</div>
+        </a>
+        <p style="font-size:12px;color:var(--muted);margin:6px 0 10px;">Professor: {{ curso.professor.nome }}</p>
+        <div style="font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;font-family:'Space Mono',monospace;margin-bottom:6px;">Alunos</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;">
+            {% for aluno in curso.alunos.all %}
+                <span class="badge badge-blue">{{ aluno.nome }}</span>
+            {% empty %}
+                <span class="text-muted">Sem alunos</span>
+            {% endfor %}
+        </div>
+    </div>
+{% empty %}
+    <p class="text-muted">Nenhum curso adicionado.</p>
+{% endfor %}
 </div>
 {% endblock %}

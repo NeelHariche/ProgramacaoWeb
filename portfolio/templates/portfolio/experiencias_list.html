@@ -1,0 +1,36 @@
+{% extends 'portfolio/base.html' %}
+{% block title %}Experiência Profissional{% endblock %}
+{% block nav_portfolio %}active{% endblock %}
+{% block nav_exp %}active{% endblock %}
+{% block content %}
+<div class="page-header">
+    <div>
+        <div class="page-label">// portfolio</div>
+        <div class="page-title">Experiência Profissional</div>
+    </div>
+</div>
+<div class="table-card">
+    <table>
+        <thead><tr><th>Empresa</th><th>Cargo</th><th>Início</th><th>Fim</th><th>Tecnologias</th></tr></thead>
+        <tbody>
+        {% for e in experiencias %}
+            <tr>
+                <td class="text-dark">{{ e.empresa }}</td>
+                <td class="text-muted">{{ e.cargo }}</td>
+                <td class="text-muted">{{ e.data_inicio }}</td>
+                <td class="text-muted">{{ e.data_fim|default:"Em curso" }}</td>
+                <td>
+                    {% for t in e.tecnologias.all %}
+                        <span class="badge badge-blue">{{ t.nome }}</span>
+                    {% empty %}
+                        <span class="text-muted">—</span>
+                    {% endfor %}
+                </td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="5"><div class="empty"><span>💼</span>Nenhuma experiência adicionada ainda.</div></td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
