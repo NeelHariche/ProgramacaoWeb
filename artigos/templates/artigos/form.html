@@ -1,0 +1,31 @@
+{% extends 'portfolio/base.html' %}
+{% block title %}{% if artigo %}Editar Artigo{% else %}Novo Artigo{% endif %}{% endblock %}
+
+{% block content %}
+<h2>{% if artigo %}Editar Artigo{% else %}Novo Artigo{% endif %}</h2>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <p>
+        <label>Título:</label><br>
+        <input type="text" name="titulo" value="{{ artigo.titulo|default:'' }}" required>
+    </p>
+    <p>
+        <label>Texto:</label><br>
+        <textarea name="texto" required rows="10">{{ artigo.texto|default:'' }}</textarea>
+    </p>
+    <p>
+        <label>Fotografia:</label><br>
+        <input type="file" name="fotografia" accept="image/*">
+    </p>
+    <p>
+        <label>Link externo (opcional):</label><br>
+        <input type="url" name="link_externo" value="{{ artigo.link_externo|default:'' }}" placeholder="https://...">
+    </p>
+    <p>
+        <button type="submit">{% if artigo %}Guardar alterações{% else %}Publicar artigo{% endif %}</button>
+        <a href="{% url 'artigos:list' %}">Cancelar</a>
+    </p>
+</form>
+
+{% endblock %}

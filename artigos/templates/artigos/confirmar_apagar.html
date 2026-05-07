@@ -1,0 +1,17 @@
+{% extends 'portfolio/base.html' %}
+{% block title %}Apagar Artigo{% endblock %}
+
+{% block content %}
+<h2>Apagar Artigo</h2>
+
+<p>Tens a certeza que queres apagar o artigo <strong>"{{ artigo.titulo }}"</strong>? Esta ação não pode ser desfeita.</p>
+
+<form method="post">
+    {% csrf_token %}
+    <p>
+        <button type="submit">Apagar</button>
+        <a href="{% url 'artigos:detail' artigo.pk %}">Cancelar</a>
+    </p>
+</form>
+
+{% endblock %}

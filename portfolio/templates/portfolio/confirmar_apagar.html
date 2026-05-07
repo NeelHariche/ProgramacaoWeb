@@ -1,21 +1,18 @@
 {% extends 'portfolio/base.html' %}
 {% block title %}{{ titulo }}{% endblock %}
+
 {% block content %}
-<div class="page-header">
-    <div>
-        <div class="page-label">// atenção</div>
-        <div class="page-title">{{ titulo }}</div>
-    </div>
-</div>
-<div class="confirm-box">
-    <p>Tens a certeza que queres apagar <strong>{{ objeto }}</strong>?<br>
-    <span class="text-muted" style="font-size:12px">Esta ação não pode ser desfeita.</span></p>
-    <form method="post">
-        {% csrf_token %}
-        <div class="form-actions">
-            <button type="submit" class="btn btn-del">✕ Sim, apagar</button>
-            <a href="{{ voltar }}" class="btn btn-ghost">← Cancelar</a>
-        </div>
-    </form>
-</div>
+<h2>{{ titulo }}</h2>
+
+<p>Tens a certeza que queres apagar <strong>{{ objeto }}</strong>?</p>
+<p>Esta ação não pode ser desfeita.</p>
+
+<form method="post">
+    {% csrf_token %}
+    <p>
+        <button type="submit">Sim, apagar</button>
+        <a href="{{ voltar }}">Cancelar</a>
+    </p>
+</form>
+
 {% endblock %}

@@ -1,32 +1,32 @@
 {% extends 'portfolio/base.html' %}
 {% block title %}Projetos{% endblock %}
-{% block nav_portfolio %}active{% endblock %}
-{% block nav_proj %}active{% endblock %}
+
 {% block content %}
-<div class="page-header">
-    <div>
-        <div class="page-label">// portfolio</div>
-        <div class="page-title">Projetos</div>
-    </div>
-    <a href="{% url 'projeto_criar' %}" class="btn btn-primary">+ Novo Projeto</a>
-</div>
-<div class="cards-grid">
+<h2>Projetos</h2>
+
+<p><a href="{% url 'projeto_criar' %}">+ Novo Projeto</a></p>
+
+<section>
 {% for p in projetos %}
-    <div class="card">
-        {% if p.uc %}<span class="card-tag">{{ p.uc.nome }}</span>{% endif %}
-        <div class="card-title">{{ p.nome }}</div>
-        <div class="card-sub">{{ p.descricao|truncatechars:80 }}</div>
-        <div class="card-footer">
-            <div>{% for t in p.tecnologias.all %}<span class="badge badge-purple">{{ t.nome }}</span>{% endfor %}</div>
-            {% if p.url_repositorio %}<a href="{{ p.url_repositorio }}" target="_blank" class="link-accent">↗ repo</a>{% endif %}
-        </div>
-        <div class="actions" style="margin-top:10px;">
-            <a href="{% url 'projeto_editar' p.pk %}" class="btn btn-edit">✎ Editar</a>
-            <a href="{% url 'projeto_apagar' p.pk %}" class="btn btn-del">✕ Apagar</a>
-        </div>
-    </div>
+    <article>
+        <h3>{{ p.nome }}</h3>
+        {% if p.uc %}<p>UC: {{ p.uc.nome }}</p>{% endif %}
+        <p>{{ p.descricao }}</p>
+        {% if p.tecnologias.all %}
+            <p>Tecnologias:
+            {% for t in p.tecnologias.all %}{{ t.nome }}{% if not forloop.last %}, {% endif %}{% endfor %}
+            </p>
+        {% endif %}
+        {% if p.url_repositorio %}<p><a href="{{ p.url_repositorio }}" target="_blank">Repositório</a></p>{% endif %}
+        <p>
+            <a href="{% url 'projeto_editar' p.pk %}">Editar</a> |
+            <a href="{% url 'projeto_apagar' p.pk %}">Apagar</a>
+        </p>
+    </article>
+    <hr>
 {% empty %}
-    <p class="text-muted">Nenhum projeto adicionado ainda.</p>
+    <p>Nenhum projeto adicionado ainda.</p>
 {% endfor %}
-</div>
+</section>
+
 {% endblock %}

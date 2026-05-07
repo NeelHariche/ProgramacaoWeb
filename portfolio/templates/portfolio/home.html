@@ -1,38 +1,74 @@
 {% extends 'portfolio/base.html' %}
+{% load static %}
 {% block title %}Início{% endblock %}
-{% block nav_home %}active{% endblock %}
+
 {% block content %}
-<div class="hero">
+
+<div style="display:flex; align-items:center; gap:32px; margin-bottom:40px;">
+    <img src="{% static 'portfolio/foto.jpg' %}" alt="Neel Hariche" style="width:160px; height:160px; border-radius:50%; object-fit:cover; border:4px solid #2563eb; flex-shrink:0;">
     <div>
-        <h1>Olá, sou o Neel Hariche</h1>
-        <p>Estudante de Informática de Gestão · Universidade Lusófona · 2º Ano</p>
-    </div>
-    <div class="hero-tags">
-        <span class="hero-tag">Java</span>
-        <span class="hero-tag">SQL</span>
-        <span class="hero-tag">Django</span>
-        <span class="hero-tag">Python</span>
-        <span class="hero-tag">Excel</span>
+        <h2 style="margin-bottom:8px;">Neel Hariche</h2>
+        <p style="font-size:15px; color:#374151; margin-bottom:12px;">Estudante de Informática de Gestão · Universidade Lusófona · 2º Ano</p>
+        <p style="font-size:14px; color:#4b5563; line-height:1.8;">
+            Estudante do 2º ano de Licenciatura em Informática de Gestão na Universidade Lusófona.
+            Tenho interesse crescente nas áreas de análise de dados, bases de dados e gestão empresarial,
+            combinando competências técnicas em programação com uma visão orientada ao negócio.
+            Ao longo do curso desenvolvi projetos em Java, Kotlin e C, e aprofundei conhecimentos em
+            bases de dados relacionais com SQL Server, incluindo modelação E-R, normalização, stored
+            procedures e triggers. Desenvolvi também um portfolio pessoal em Django como projeto de
+            Programação Web. Tenho experiência profissional real na Hariche Group Lda, empresa familiar
+            em Moçambique, onde apoiei a gestão de inventário, análise de custos e logística de stock
+            usando Excel e Primavera ERP. Procuro oportunidades onde possa continuar a aprofundar os
+            meus conhecimentos, aprender com profissionais experientes e aplicar o que aprendo em
+            contextos reais.
+        </p>
     </div>
 </div>
 
-<div class="stats-grid">
-    <a href="/licenciaturas/" class="stat-card"><div class="stat-ico">🎓</div><div class="stat-num">{{ num_licenciaturas }}</div><div class="stat-label">Licenciaturas</div></a>
-    <a href="/ucs/" class="stat-card"><div class="stat-ico">📚</div><div class="stat-num">{{ num_ucs }}</div><div class="stat-label">Unid. Curriculares</div></a>
-    <a href="/docentes/" class="stat-card"><div class="stat-ico">👤</div><div class="stat-num">{{ num_docentes }}</div><div class="stat-label">Docentes</div></a>
-    <a href="/projetos/" class="stat-card"><div class="stat-ico">◈</div><div class="stat-num">{{ num_projetos }}</div><div class="stat-label">Projetos</div></a>
-    <a href="/tecnologias/" class="stat-card"><div class="stat-ico">◉</div><div class="stat-num">{{ num_tecnologias }}</div><div class="stat-label">Tecnologias</div></a>
-    <a href="/competencias/" class="stat-card"><div class="stat-ico">◎</div><div class="stat-num">{{ num_competencias }}</div><div class="stat-label">Competências</div></a>
-    <a href="/formacoes/" class="stat-card"><div class="stat-ico">◷</div><div class="stat-num">{{ num_formacoes }}</div><div class="stat-label">Formações</div></a>
-    <a href="/tfcs/" class="stat-card"><div class="stat-ico">◌</div><div class="stat-num">{{ num_tfcs }}</div><div class="stat-label">TFCs</div></a>
-    <a href="/experiencias/" class="stat-card"><div class="stat-ico">💼</div><div class="stat-num">{{ num_experiencias }}</div><div class="stat-label">Experiências</div></a>
-    <a href="/escola/cursos/" class="stat-card"><div class="stat-ico">🏫</div><div class="stat-num">{{ num_cursos }}</div><div class="stat-label">Cursos</div></a>
-    <a href="/escola/alunos/" class="stat-card"><div class="stat-ico">🎒</div><div class="stat-num">{{ num_alunos }}</div><div class="stat-label">Alunos</div></a>
-</div>
+<section>
+    <article>
+        <header><h3>Académico</h3></header>
+        <section>
+            <h4>Páginas</h4>
+            <ul>
+                <li><a href="/licenciaturas/">Licenciaturas ({{ num_licenciaturas }})</a></li>
+                <li><a href="/ucs/">Unidades Curriculares ({{ num_ucs }})</a></li>
+                <li><a href="/docentes/">Docentes ({{ num_docentes }})</a></li>
+            </ul>
+        </section>
+    </article>
 
-<div style="margin-top:8px;display:flex;gap:12px;">
-    <a href="/sobre/" class="btn btn-primary">ℹ Sobre esta Aplicação</a>
-    <a href="/makingof/" class="btn btn-ghost">📝 Making Of</a>
-</div>
+    <article>
+        <header><h3>Portfolio</h3></header>
+        <section>
+            <h4>Páginas</h4>
+            <ul>
+                <li><a href="/projetos/">Projetos ({{ num_projetos }})</a></li>
+                <li><a href="/tecnologias/">Tecnologias ({{ num_tecnologias }})</a></li>
+                <li><a href="/competencias/">Competências ({{ num_competencias }})</a></li>
+                <li><a href="/formacoes/">Formações ({{ num_formacoes }})</a></li>
+                <li><a href="/tfcs/">TFCs ({{ num_tfcs }})</a></li>
+                <li><a href="/experiencias/">Experiências ({{ num_experiencias }})</a></li>
+                <li><a href="/artigos/">Artigos ({{ num_artigos }})</a></li>
+            </ul>
+        </section>
+    </article>
+
+    <article>
+        <header><h3>Escola</h3></header>
+        <section>
+            <h4>Páginas</h4>
+            <ul>
+                <li><a href="/escola/cursos/">Cursos ({{ num_cursos }})</a></li>
+                <li><a href="/escola/alunos/">Alunos ({{ num_alunos }})</a></li>
+            </ul>
+        </section>
+    </article>
+</section>
+
+<p>
+    <a href="/sobre/">Sobre esta Aplicação</a> |
+    <a href="/makingof/">Making Of</a>
+</p>
 
 {% endblock %}

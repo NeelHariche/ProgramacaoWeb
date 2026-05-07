@@ -1,35 +1,33 @@
-{% extends 'portfolio/base.html' %}
-{% block title %}Cursos{% endblock %}
-{% block nav_escola %}active{% endblock %}
-{% block nav_cursos %}active{% endblock %}
+   
+
+{% extends "escola/base.html" %}
+    
 {% block content %}
-<div class="page-header">
-    <div>
-        <div class="page-label">// escola</div>
-        <div class="page-title">Cursos</div>
-    </div>
-</div>
-<div class="cards-grid">
-{% for curso in cursos %}
-    <div class="card">
-        {% if curso.imagem %}
-            <img src="{{ curso.imagem.url }}" alt="{{ curso.nome }}" style="height:80px;object-fit:contain;margin-bottom:12px;display:block;">
-        {% endif %}
-        <a href="{% url 'curso' curso.id %}" style="text-decoration:none;">
-            <div class="card-title">{{ curso.nome }}</div>
-        </a>
-        <p style="font-size:12px;color:var(--muted);margin:6px 0 10px;">Professor: {{ curso.professor.nome }}</p>
-        <div style="font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;font-family:'Space Mono',monospace;margin-bottom:6px;">Alunos</div>
-        <div style="display:flex;flex-wrap:wrap;gap:6px;">
-            {% for aluno in curso.alunos.all %}
-                <span class="badge badge-blue">{{ aluno.nome }}</span>
-            {% empty %}
-                <span class="text-muted">Sem alunos</span>
-            {% endfor %}
-        </div>
-    </div>
-{% empty %}
-    <p class="text-muted">Nenhum curso adicionado.</p>
-{% endfor %}
-</div>
+<h2>Cursos</h2>
+
+<section>
+    {% for curso in cursos %}
+    <article>
+    <!-- cada curso é um article, 
+     com um header com o nome do curso e do professor, 
+     e uma section com a lista de cursos-->
+        <header>
+            <h3>{{ curso.nome }}</h3>
+            <img src="{{ curso.imagem.url }}" alt="Imagem do logotipo {{ curso.imagem.name }}">
+            <p>Professor: {{ curso.professor.nome }}</p>
+        </header>
+
+        <section>
+            <h4>Alunos</h4>
+            <ul>
+                {% for aluno in curso.alunos.all %}
+                    <li>{{ aluno.nome }}</li>
+                {% empty %}
+                    <li>Sem alunos inscritos</li>
+                {% endfor %}
+            </ul>
+        </section>
+    </article>
+    {% endfor %}
+</section>
 {% endblock %}

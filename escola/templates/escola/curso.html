@@ -1,22 +1,27 @@
-{% extends 'portfolio/base.html' %}
+{% extends 'escola/base.html' %}
 {% block title %}{{ curso.nome }}{% endblock %}
-{% block nav_escola %}active{% endblock %}
-{% block nav_cursos %}active{% endblock %}
+
 {% block content %}
-<div class="page-header">
-    <div>
-        <div class="page-label">// escola / cursos</div>
-        <div class="page-title">{{ curso.nome }}</div>
-    </div>
-</div>
-<div class="card" style="max-width:600px;padding:24px;">
-    {% if curso.imagem %}<img src="{{ curso.imagem.url }}" alt="{{ curso.nome }}" style="height:70px;object-fit:contain;margin-bottom:16px;display:block;">{% endif %}
-    <div class="section-label">professor</div>
-    <p style="font-size:15px;font-weight:600;color:#0f172a;margin-bottom:20px;">{{ curso.professor.nome }}</p>
-    <div class="section-label">alunos inscritos</div>
-    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;">
-        {% for aluno in curso.alunos.all %}<span class="badge badge-blue">{{ aluno.nome }}</span>
-        {% empty %}<span class="text-muted">Sem alunos inscritos</span>{% endfor %}
-    </div>
-</div>
+<h2>{{ curso.nome }}</h2>
+
+<article>
+    <header>
+        {% if curso.imagem %}
+            <img src="{{ curso.imagem.url }}" alt="{{ curso.nome }}" width="100">
+        {% endif %}
+        <h3>{{ curso.nome }}</h3>
+        <p>Professor: {{ curso.professor.nome }}</p>
+    </header>
+    <section>
+        <h4>Alunos</h4>
+        <ul>
+            {% for aluno in curso.alunos.all %}
+                <li>{{ aluno.nome }}</li>
+            {% empty %}
+                <li>Sem alunos inscritos</li>
+            {% endfor %}
+        </ul>
+    </section>
+</article>
+
 {% endblock %}

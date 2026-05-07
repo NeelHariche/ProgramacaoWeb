@@ -1,34 +1,39 @@
 {% extends 'portfolio/base.html' %}
 {% block title %}Formações{% endblock %}
-{% block nav_portfolio %}active{% endblock %}
-{% block nav_form %}active{% endblock %}
+
 {% block content %}
-<div class="page-header">
-    <div>
-        <div class="page-label">// portfolio</div>
-        <div class="page-title">Formações</div>
-    </div>
-    <a href="{% url 'formacao_criar' %}" class="btn btn-primary">+ Nova Formação</a>
-</div>
-<div class="table-card">
-    <table>
-        <thead><tr><th>Nome</th><th>Instituição</th><th>Início</th><th>Fim</th><th>Ações</th></tr></thead>
+<h2>Formações</h2>
+
+<p><a href="{% url 'formacao_criar' %}">+ Nova Formação</a></p>
+
+<section>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Instituição</th>
+                <th>Início</th>
+                <th>Fim</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
         <tbody>
         {% for f in formacoes %}
             <tr>
-                <td class="text-dark">{{ f.nome }}</td>
-                <td><span class="badge badge-green">{{ f.instituicao }}</span></td>
-                <td class="text-muted">{{ f.data_inicio }}</td>
-                <td class="text-muted">{{ f.data_fim|default:"Em curso" }}</td>
-                <td><div class="actions">
-                    <a href="{% url 'formacao_editar' f.pk %}" class="btn btn-edit">✎ Editar</a>
-                    <a href="{% url 'formacao_apagar' f.pk %}" class="btn btn-del">✕ Apagar</a>
-                </div></td>
+                <td>{{ f.nome }}</td>
+                <td>{{ f.instituicao }}</td>
+                <td>{{ f.data_inicio }}</td>
+                <td>{{ f.data_fim|default:"Em curso" }}</td>
+                <td>
+                    <a href="{% url 'formacao_editar' f.pk %}">Editar</a> |
+                    <a href="{% url 'formacao_apagar' f.pk %}">Apagar</a>
+                </td>
             </tr>
         {% empty %}
-            <tr><td colspan="5"><div class="empty"><span>◷</span>Nenhuma formação adicionada ainda.</div></td></tr>
+            <tr><td colspan="5">Nenhuma formação adicionada ainda.</td></tr>
         {% endfor %}
         </tbody>
     </table>
-</div>
+</section>
+
 {% endblock %}

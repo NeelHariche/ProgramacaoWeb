@@ -1,0 +1,11 @@
+{% extends 'portfolio/base.html' %}
+{% block title %}Link Inválido{% endblock %}
+
+{% block content %}
+<h2>Link inválido</h2>
+
+<p>Este link já foi usado ou expirou.</p>
+
+<p><a href="{% url 'accounts:login' %}">Voltar ao login</a></p>
+
+{% endblock %}

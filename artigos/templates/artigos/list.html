@@ -1,0 +1,29 @@
+{% extends 'portfolio/base.html' %}
+{% block title %}Artigos{% endblock %}
+
+{% block content %}
+<h2>Artigos</h2>
+
+{% if is_autor %}
+    <p><a href="{% url 'artigos:create' %}">+ Novo Artigo</a></p>
+{% endif %}
+
+<section>
+{% for artigo in artigos %}
+    <article>
+        {% if artigo.fotografia %}
+            <img src="{{ artigo.fotografia.url }}" width="200">
+        {% endif %}
+        <h3>{{ artigo.titulo }}</h3>
+        <p>Autor: {{ artigo.autor.username }}</p>
+        <p>{{ artigo.texto|truncatewords:20 }}</p>
+        <p>{{ artigo.data_criacao|date:"d/m/Y" }} · ❤ {{ artigo.likes.count }}</p>
+        <p><a href="{% url 'artigos:detail' artigo.pk %}">Ver artigo</a></p>
+    </article>
+    <hr>
+{% empty %}
+    <p>Ainda não há artigos publicados.</p>
+{% endfor %}
+</section>
+
+{% endblock %}

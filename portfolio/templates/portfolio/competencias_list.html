@@ -1,34 +1,39 @@
 {% extends 'portfolio/base.html' %}
 {% block title %}Competências{% endblock %}
-{% block nav_portfolio %}active{% endblock %}
-{% block nav_comp %}active{% endblock %}
+
 {% block content %}
-<div class="page-header">
-    <div>
-        <div class="page-label">// portfolio</div>
-        <div class="page-title">Competências</div>
-    </div>
-    <a href="{% url 'competencia_criar' %}" class="btn btn-primary">+ Nova Competência</a>
-</div>
-<div class="table-card">
-    <table>
-        <thead><tr><th>Nome</th><th>Tipo</th><th>Tecnologias</th><th>Descrição</th><th>Ações</th></tr></thead>
+<h2>Competências</h2>
+
+<p><a href="{% url 'competencia_criar' %}">+ Nova Competência</a></p>
+
+<section>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Tipo</th>
+                <th>Tecnologias</th>
+                <th>Descrição</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
         <tbody>
         {% for c in competencias %}
             <tr>
-                <td class="text-dark">{{ c.nome }}</td>
-                <td>{% if c.tipo == 'tecnica' %}<span class="badge badge-blue">Técnica</span>{% elif c.tipo == 'soft' %}<span class="badge badge-green">Soft Skill</span>{% else %}<span class="badge badge-gray">Outro</span>{% endif %}</td>
-                <td>{% for t in c.tecnologias.all %}<span class="badge badge-purple">{{ t.nome }}</span>{% empty %}<span class="text-muted">—</span>{% endfor %}</td>
-                <td class="text-muted">{{ c.descricao|truncatechars:50 }}</td>
-                <td><div class="actions">
-                    <a href="{% url 'competencia_editar' c.pk %}" class="btn btn-edit">✎ Editar</a>
-                    <a href="{% url 'competencia_apagar' c.pk %}" class="btn btn-del">✕ Apagar</a>
-                </div></td>
+                <td>{{ c.nome }}</td>
+                <td>{{ c.tipo }}</td>
+                <td>{% for t in c.tecnologias.all %}{{ t.nome }}{% if not forloop.last %}, {% endif %}{% empty %}—{% endfor %}</td>
+                <td>{{ c.descricao }}</td>
+                <td>
+                    <a href="{% url 'competencia_editar' c.pk %}">Editar</a> |
+                    <a href="{% url 'competencia_apagar' c.pk %}">Apagar</a>
+                </td>
             </tr>
         {% empty %}
-            <tr><td colspan="5"><div class="empty"><span>◎</span>Nenhuma competência adicionada ainda.</div></td></tr>
+            <tr><td colspan="5">Nenhuma competência adicionada ainda.</td></tr>
         {% endfor %}
         </tbody>
     </table>
-</div>
+</section>
+
 {% endblock %}

@@ -4,6 +4,7 @@ from .models import (Licenciatura, UnidadeCurricular, Docente, Tecnologia,
                      ExperienciaProfissional, MakingOf)
 from .forms import ProjetoForm, TecnologiaForm, CompetenciaForm, FormacaoForm
 from escola.models import Curso, Aluno
+from artigos.models import Artigo
 
 def home_view(request):
     return render(request, 'portfolio/home.html', {
@@ -18,6 +19,7 @@ def home_view(request):
         'num_cursos': Curso.objects.count(),
         'num_alunos': Aluno.objects.count(),
         'num_experiencias': ExperienciaProfissional.objects.count(),
+        'num_artigos': Artigo.objects.count(),
     })
 
 def licenciaturas_view(request):

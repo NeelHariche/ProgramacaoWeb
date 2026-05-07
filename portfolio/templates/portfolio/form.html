@@ -1,20 +1,16 @@
 {% extends 'portfolio/base.html' %}
 {% block title %}{{ titulo }}{% endblock %}
+
 {% block content %}
-<div class="page-header">
-    <div>
-        <div class="page-label">// formulário</div>
-        <div class="page-title">{{ titulo }}</div>
-    </div>
-</div>
-<div class="form-card">
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <div class="form-actions">
-            <button type="submit" class="btn btn-primary">✓ Guardar</button>
-            <a href="{{ voltar }}" class="btn btn-ghost">✕ Cancelar</a>
-        </div>
-    </form>
-</div>
+<h2>{{ titulo }}</h2>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <p>
+        <button type="submit">Guardar</button>
+        <a href="{{ voltar }}">Cancelar</a>
+    </p>
+</form>
+
 {% endblock %}

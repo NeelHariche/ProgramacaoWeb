@@ -1,417 +1,79 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Portfólio{% endblock %}</title>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --grad: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 50%, #6366f1 100%);
-            --blue: #2563eb; --blue-light: #eff6ff; --blue-border: #bfdbfe;
-            --purple: #7c3aed; --purple-light: #f5f3ff; --purple-border: #ddd6fe;
-            --green: #16a34a; --green-light: #f0fdf4; --green-border: #bbf7d0;
-            --text: #0f172a; --muted: #64748b; --border: #e2e8f0;
-            --bg: #f8fafc; --bg2: #ffffff; --bg3: #f1f5f9;
-        }
-        * { margin:0; padding:0; box-sizing:border-box; }
-        body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; min-height:100vh; }
-
-        .topbar {
-            background: var(--grad);
-            padding: 0 32px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 12px rgba(59,130,246,0.3);
-        }
-        .brand { color: #fff; font-size: 16px; font-weight: 500; letter-spacing: 0.5px; text-decoration: none; }
-        .brand span { opacity: 0.7; font-size: 12px; margin-left: 8px; font-family: 'Space Mono', monospace; }
-        .topnav { display: flex; gap: 4px; align-items: center; }
-
-        .nav-item { position: relative; }
-        .nav-btn {
-            color: rgba(255,255,255,0.8);
-            background: none;
-            border: none;
-            padding: 6px 14px;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-family: 'Inter', sans-serif;
-            transition: all .15s;
-        }
-        .nav-btn:hover, .nav-btn.active { background: rgba(255,255,255,0.2); color: #fff; }
-        .nav-arrow { font-size: 9px; opacity: 0.7; }
-        .nav-plain {
-            color: rgba(255,255,255,0.8);
-            text-decoration: none;
-            padding: 6px 14px;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 500;
-            transition: all .15s;
-        }
-        .nav-plain:hover, .nav-plain.active { background: rgba(255,255,255,0.2); color: #fff; }
-
-        .dropdown {
-            position: absolute;
-            top: calc(100% + 8px);
-            left: 0;
-            background: var(--bg2);
-            border: 0.5px solid var(--border);
-            border-radius: 10px;
-            padding: 6px;
-            min-width: 200px;
-            z-index: 200;
-            display: none;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-        }
-        .dropdown.show { display: block; }
-        .dropdown a {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 13px;
-            color: var(--text);
-            text-decoration: none;
-            transition: all .12s;
-        }
-        .dropdown a:hover, .dropdown a.active { background: var(--blue-light); color: var(--blue); }
-        .dropdown-sep { height: 1px; background: var(--border); margin: 4px 0; }
-        .drop-ico { font-size: 14px; width: 20px; text-align: center; }
-
-        .content { padding: 28px 32px; max-width: 1000px; }
-
-        .page-header {
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-between;
-            margin-bottom: 24px;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-        .page-label {
-            font-family: 'Space Mono', monospace;
-            font-size: 10px;
-            color: var(--blue);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 4px;
-        }
-        .page-title { font-size: 22px; font-weight: 600; color: var(--text); }
-
-        .hero {
-            background: linear-gradient(135deg, #eff6ff, #eef2ff);
-            border: 1px solid var(--blue-border);
-            border-radius: 12px;
-            padding: 24px 28px;
-            margin-bottom: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 16px;
-        }
-        .hero h1 { font-size: 20px; font-weight: 600; color: #1e40af; margin-bottom: 4px; }
-        .hero p { font-size: 13px; color: #3b82f6; }
-        .hero-tags { display: flex; gap: 8px; flex-wrap: wrap; }
-        .hero-tag {
-            background: white;
-            border: 1px solid var(--blue-border);
-            border-radius: 20px;
-            padding: 5px 12px;
-            font-size: 12px;
-            color: var(--blue);
-            font-weight: 500;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 12px;
-            margin-bottom: 28px;
-        }
-        .stat-card {
-            background: var(--bg2);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 16px;
-            text-decoration: none;
-            transition: all .15s;
-            display: block;
-        }
-        .stat-card:hover { border-color: #93c5fd; box-shadow: 0 4px 12px rgba(59,130,246,0.1); transform: translateY(-2px); }
-        .stat-ico { font-size: 18px; margin-bottom: 8px; }
-        .stat-num {
-            font-size: 26px;
-            font-weight: 600;
-            background: var(--grad);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            line-height: 1;
-        }
-        .stat-label {
-            font-family: 'Space Mono', monospace;
-            font-size: 9px;
-            color: var(--muted);
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            margin-top: 4px;
-        }
-
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 14px;
-            margin-bottom: 28px;
-        }
-        .card {
-            background: var(--bg2);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 16px;
-            transition: all .2s;
-        }
-        .card:hover { border-color: #93c5fd; box-shadow: 0 4px 12px rgba(59,130,246,0.1); }
-        .card-tag {
-            display: inline-block;
-            background: var(--blue-light);
-            color: var(--blue);
-            border: 1px solid var(--blue-border);
-            border-radius: 20px;
-            font-size: 10px;
-            padding: 2px 8px;
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-        .card-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
-        .card-sub { font-size: 12px; color: var(--muted); }
-        .card-footer {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-top: 12px;
-            padding-top: 10px;
-            border-top: 1px solid var(--bg3);
-        }
-
-        .table-card {
-            background: var(--bg2);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            overflow: hidden;
-            margin-bottom: 28px;
-        }
-        table { width: 100%; border-collapse: collapse; }
-        thead { background: var(--bg3); }
-        th {
-            padding: 10px 18px;
-            font-family: 'Space Mono', monospace;
-            font-size: 9px;
-            color: var(--muted);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            text-align: left;
-            font-weight: 600;
-        }
-        td {
-            padding: 12px 18px;
-            font-size: 13px;
-            border-bottom: 1px solid var(--border);
-            color: var(--text);
-            font-weight: 500;
-            vertical-align: middle;
-        }
-        tr:last-child td { border-bottom: none; }
-        tbody tr:hover { background: #f8faff; }
-
-        .badge {
-            display: inline-block;
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 500;
-        }
-        .badge-blue { background: var(--blue-light); color: var(--blue); border: 1px solid var(--blue-border); }
-        .badge-purple { background: var(--purple-light); color: var(--purple); border: 1px solid var(--purple-border); }
-        .badge-green { background: var(--green-light); color: var(--green); border: 1px solid var(--green-border); }
-        .badge-gray { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 7px 14px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 500;
-            text-decoration: none;
-            border: 1px solid transparent;
-            cursor: pointer;
-            transition: all .15s;
-            font-family: 'Inter', sans-serif;
-        }
-        .btn-primary { background: var(--grad); color: #fff; border: none; box-shadow: 0 2px 8px rgba(59,130,246,0.3); }
-        .btn-primary:hover { opacity: 0.9; }
-        .btn-edit { background: transparent; color: #d97706; border-color: #fde68a; }
-        .btn-edit:hover { background: #fffbeb; }
-        .btn-del { background: transparent; color: #dc2626; border-color: #fecaca; }
-        .btn-del:hover { background: #fef2f2; }
-        .btn-ghost { background: transparent; color: var(--muted); border-color: var(--border); }
-        .btn-ghost:hover { color: var(--text); border-color: #cbd5e1; }
-        .actions { display: flex; gap: 6px; }
-
-        .form-card {
-            background: var(--bg2);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 28px;
-            max-width: 620px;
-        }
-        .form-card p { margin-bottom: 14px; }
-        .form-card label {
-            display: block;
-            font-family: 'Space Mono', monospace;
-            font-size: 9px;
-            color: var(--muted);
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            margin-bottom: 5px;
-        }
-        .form-card input, .form-card textarea, .form-card select {
-            width: 100%;
-            background: #fff;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            padding: 8px 12px;
-            color: var(--text);
-            font-size: 13px;
-            font-family: 'Inter', sans-serif;
-            transition: border-color .15s;
-        }
-        .form-card input:focus, .form-card textarea:focus, .form-card select:focus {
-            outline: none;
-            border-color: var(--blue);
-            box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
-        }
-        .form-card textarea { resize: vertical; min-height: 80px; }
-        .form-card ul { list-style: none; }
-        .form-card ul li { margin-bottom: 6px; font-size: 13px; }
-        .form-card ul li label { display: inline; font-family: 'Inter', sans-serif; font-size: 13px; color: var(--text); text-transform: none; letter-spacing: 0; }
-        .form-card input[type="checkbox"] { width: auto; margin-right: 7px; }
-        .form-actions { display: flex; gap: 10px; margin-top: 22px; }
-
-        .confirm-box {
-            background: #fff5f5;
-            border: 1px solid #fecaca;
-            border-radius: 10px;
-            padding: 24px;
-            max-width: 500px;
-        }
-        .confirm-box p { font-size: 14px; margin-bottom: 20px; color: var(--text); }
-
-        .empty { padding: 48px; text-align: center; color: var(--muted); font-size: 13px; }
-        .empty span { display: block; font-size: 28px; margin-bottom: 10px; }
-        .text-muted { color: var(--muted); }
-        .text-dark { color: var(--text); font-weight: 600; }
-        .link-accent { color: var(--blue); font-size: 12px; font-family: 'Space Mono', monospace; text-decoration: none; }
-        .link-accent:hover { text-decoration: underline; }
-        .stars { color: #f59e0b; font-size: 13px; }
-        .section-label {
-            font-family: 'Space Mono', monospace;
-            font-size: 9px;
-            color: var(--muted);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 12px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid var(--border);
-        }
-        .docente-cell { display: flex; align-items: center; gap: 10px; }
-        .docente-avatar { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border); }
-        .docente-avatar-placeholder {
-            width: 34px; height: 34px; border-radius: 50%;
-            background: var(--blue-light); border: 2px solid var(--blue-border);
-            display: flex; align-items: center; justify-content: center; font-size: 13px;
-        }
-        .docente-name { font-weight: 600; color: var(--text); font-size: 13px; }
-    </style>
+    <link rel="stylesheet" href="{% static 'portfolio/style.css' %}">
 </head>
 <body>
 
-<header class="topbar">
-    <a href="/" class="brand">Neel Hariche <span>// portfolio</span></a>
-    <nav class="topnav">
-        <a href="/" class="nav-plain {% block nav_home %}{% endblock %}">Início</a>
+<header>
+    <h1>Neel Hariche</h1>
+    <nav>
+        <a href="/">Início</a>
 
-        <div class="nav-item">
-            <button class="nav-btn {% block nav_academico %}{% endblock %}" onclick="toggleDropdown('dd-academico')">
-                Académico <span class="nav-arrow">▼</span>
-            </button>
-            <div class="dropdown" id="dd-academico">
-                <a href="/licenciaturas/" class="{% block nav_lic %}{% endblock %}"><span class="drop-ico">🎓</span> Licenciaturas</a>
-                <a href="/ucs/" class="{% block nav_uc %}{% endblock %}"><span class="drop-ico">📚</span> Unid. Curriculares</a>
-                <a href="/docentes/" class="{% block nav_doc %}{% endblock %}"><span class="drop-ico">👤</span> Docentes</a>
+        <div class="dropdown-nav">
+            <a href="#" onclick="toggleDD('dd-portfolio'); return false;">Portfolio ▾</a>
+            <div class="dd-menu" id="dd-portfolio">
+                <a href="/licenciaturas/">Licenciaturas</a>
+                <a href="/ucs/">Unid. Curriculares</a>
+                <a href="/docentes/">Docentes</a>
+                <a href="/projetos/">Projetos</a>
+                <a href="/tecnologias/">Tecnologias</a>
+                <a href="/competencias/">Competências</a>
+                <a href="/formacoes/">Formações</a>
+                <a href="/tfcs/">TFCs</a>
+                <a href="/experiencias/">Experiências</a>
+                <a href="/sobre/">Sobre</a>
+                <a href="/makingof/">Making Of</a>
             </div>
         </div>
 
-        <div class="nav-item">
-            <button class="nav-btn {% block nav_portfolio %}{% endblock %}" onclick="toggleDropdown('dd-portfolio')">
-                Portfolio <span class="nav-arrow">▼</span>
-            </button>
-            <div class="dropdown" id="dd-portfolio">
-                <a href="/projetos/" class="{% block nav_proj %}{% endblock %}"><span class="drop-ico">◈</span> Projetos</a>
-                <a href="/tecnologias/" class="{% block nav_tec %}{% endblock %}"><span class="drop-ico">◉</span> Tecnologias</a>
-                <a href="/competencias/" class="{% block nav_comp %}{% endblock %}"><span class="drop-ico">◎</span> Competências</a>
-                <a href="/formacoes/" class="{% block nav_form %}{% endblock %}"><span class="drop-ico">◷</span> Formações</a>
-                <a href="/tfcs/" class="{% block nav_tfc %}{% endblock %}"><span class="drop-ico">◌</span> TFCs</a>
-                <div class="dropdown-sep"></div>
-                <a href="/experiencias/" class="{% block nav_exp %}{% endblock %}"><span class="drop-ico">💼</span> Experiência</a>
-                <a href="/makingof/" class="{% block nav_makingof %}{% endblock %}"><span class="drop-ico">📝</span> Making Of</a>
-                <a href="/sobre/" class="{% block nav_sobre %}{% endblock %}"><span class="drop-ico">ℹ</span> Sobre</a>
+        <a href="/artigos/">Artigos</a>
+
+        <div class="dropdown-nav">
+            <a href="#" onclick="toggleDD('dd-escola'); return false;">Escola ▾</a>
+            <div class="dd-menu" id="dd-escola">
+                <a href="/escola/cursos/">Cursos</a>
+                <a href="/escola/professores/">Professores</a>
+                <a href="/escola/alunos/">Alunos</a>
             </div>
         </div>
 
-        <div class="nav-item">
-            <button class="nav-btn {% block nav_escola %}{% endblock %}" onclick="toggleDropdown('dd-escola')">
-                Escola <span class="nav-arrow">▼</span>
-            </button>
-            <div class="dropdown" id="dd-escola">
-                <a href="/escola/cursos/" class="{% block nav_cursos %}{% endblock %}"><span class="drop-ico">🏫</span> Cursos</a>
-                <a href="/escola/professores/" class="{% block nav_profs %}{% endblock %}"><span class="drop-ico">👨‍🏫</span> Professores</a>
-                <a href="/escola/alunos/" class="{% block nav_alunos %}{% endblock %}"><span class="drop-ico">🎒</span> Alunos</a>
-            </div>
-        </div>
-
-        <a href="/admin/" class="nav-plain">⚙ Admin</a>
+        {% if request.user.is_authenticated %}
+            {% if request.user.is_staff %}
+                <a href="/admin/">Admin</a>
+            {% endif %}
+            <a href="{% url 'accounts:logout' %}">Logout ({{ request.user.username }})</a>
+        {% else %}
+            <a href="{% url 'accounts:login' %}">Login</a>
+        {% endif %}
     </nav>
 </header>
 
-<main class="content">
+<main>
     {% block content %}{% endblock %}
 </main>
 
+<footer>
+    <p>© 2026 Neel Hariche</p>
+</footer>
+
 <script>
-function toggleDropdown(id) {
-    document.querySelectorAll('.dropdown').forEach(d => {
-        if (d.id !== id) d.classList.remove('show');
+function toggleDD(id) {
+    document.querySelectorAll('.dd-menu').forEach(function(d) {
+        if (d.id !== id) d.style.display = 'none';
     });
-    document.getElementById(id).classList.toggle('show');
+    var el = document.getElementById(id);
+    el.style.display = el.style.display === 'block' ? 'none' : 'block';
 }
-document.addEventListener('click', e => {
-    if (!e.target.closest('.nav-item')) {
-        document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('show'));
+document.addEventListener('click', function(e) {
+    if (!e.target.closest('.dropdown-nav')) {
+        document.querySelectorAll('.dd-menu').forEach(function(d) {
+            d.style.display = 'none';
+        });
     }
 });
 </script>

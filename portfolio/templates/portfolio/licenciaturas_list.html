@@ -1,29 +1,32 @@
 {% extends 'portfolio/base.html' %}
 {% block title %}Licenciaturas{% endblock %}
-{% block nav_academico %}active{% endblock %}
-{% block nav_lic %}active{% endblock %}
+
 {% block content %}
-<div class="page-header">
-    <div>
-        <div class="page-label">// académico</div>
-        <div class="page-title">Licenciaturas</div>
-    </div>
-</div>
-<div class="table-card">
-    <table>
-        <thead><tr><th>Nome</th><th>Instituição</th><th>Ano Início</th><th>Site</th></tr></thead>
+<h2>Licenciaturas</h2>
+
+<section>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Instituição</th>
+                <th>Ano Início</th>
+                <th>Site</th>
+            </tr>
+        </thead>
         <tbody>
         {% for l in licenciaturas %}
             <tr>
-                <td class="text-dark">{{ l.nome }}</td>
-                <td class="text-muted">{{ l.instituicao }}</td>
-                <td class="text-muted">{{ l.ano_inicio }}</td>
-                <td>{% if l.url %}<a href="{{ l.url }}" target="_blank" class="link-accent">↗ link</a>{% else %}<span class="text-muted">—</span>{% endif %}</td>
+                <td>{{ l.nome }}</td>
+                <td>{{ l.instituicao }}</td>
+                <td>{{ l.ano_inicio }}</td>
+                <td>{% if l.url %}<a href="{{ l.url }}" target="_blank">Link</a>{% else %}—{% endif %}</td>
             </tr>
         {% empty %}
-            <tr><td colspan="4"><div class="empty"><span>🎓</span>Nenhuma licenciatura adicionada ainda.</div></td></tr>
+            <tr><td colspan="4">Nenhuma licenciatura adicionada ainda.</td></tr>
         {% endfor %}
         </tbody>
     </table>
-</div>
+</section>
+
 {% endblock %}

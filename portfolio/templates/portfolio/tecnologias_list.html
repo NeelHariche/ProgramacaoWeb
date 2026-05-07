@@ -1,34 +1,39 @@
 {% extends 'portfolio/base.html' %}
 {% block title %}Tecnologias{% endblock %}
-{% block nav_portfolio %}active{% endblock %}
-{% block nav_tec %}active{% endblock %}
+
 {% block content %}
-<div class="page-header">
-    <div>
-        <div class="page-label">// portfolio</div>
-        <div class="page-title">Tecnologias</div>
-    </div>
-    <a href="{% url 'tecnologia_criar' %}" class="btn btn-primary">+ Nova Tecnologia</a>
-</div>
-<div class="table-card">
-    <table>
-        <thead><tr><th>Nome</th><th>Categoria</th><th>Nível</th><th>Site</th><th>Ações</th></tr></thead>
+<h2>Tecnologias</h2>
+
+<p><a href="{% url 'tecnologia_criar' %}">+ Nova Tecnologia</a></p>
+
+<section>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Categoria</th>
+                <th>Nível</th>
+                <th>Site</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
         <tbody>
         {% for t in tecnologias %}
             <tr>
-                <td class="text-dark">{{ t.nome }}</td>
-                <td><span class="badge badge-blue">{{ t.get_categoria_display }}</span></td>
-                <td><span class="stars">{% if t.nivel == 1 %}★☆☆{% elif t.nivel == 2 %}★★☆{% elif t.nivel == 3 %}★★★{% endif %}</span></td>
-                <td>{% if t.url_tecnologia %}<a href="{{ t.url_tecnologia }}" target="_blank" class="link-accent">↗ link</a>{% else %}<span class="text-muted">—</span>{% endif %}</td>
-                <td><div class="actions">
-                    <a href="{% url 'tecnologia_editar' t.pk %}" class="btn btn-edit">✎ Editar</a>
-                    <a href="{% url 'tecnologia_apagar' t.pk %}" class="btn btn-del">✕ Apagar</a>
-                </div></td>
+                <td>{{ t.nome }}</td>
+                <td>{{ t.get_categoria_display }}</td>
+                <td>{{ t.nivel }}</td>
+                <td>{% if t.url_tecnologia %}<a href="{{ t.url_tecnologia }}" target="_blank">Link</a>{% else %}—{% endif %}</td>
+                <td>
+                    <a href="{% url 'tecnologia_editar' t.pk %}">Editar</a> |
+                    <a href="{% url 'tecnologia_apagar' t.pk %}">Apagar</a>
+                </td>
             </tr>
         {% empty %}
-            <tr><td colspan="5"><div class="empty"><span>◉</span>Nenhuma tecnologia adicionada ainda.</div></td></tr>
+            <tr><td colspan="5">Nenhuma tecnologia adicionada ainda.</td></tr>
         {% endfor %}
         </tbody>
     </table>
-</div>
+</section>
+
 {% endblock %}

@@ -1,39 +1,35 @@
 {% extends 'portfolio/base.html' %}
 {% block title %}Docentes{% endblock %}
-{% block nav_academico %}active{% endblock %}
-{% block nav_doc %}active{% endblock %}
+
 {% block content %}
-<div class="page-header">
-    <div>
-        <div class="page-label">// académico</div>
-        <div class="page-title">Docentes</div>
-    </div>
-</div>
-<div class="table-card">
-    <table>
-        <thead><tr><th>Docente</th><th>Email</th><th>UCs</th><th>Página Lusófona</th></tr></thead>
+<h2>Docentes</h2>
+
+<section>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Docente</th>
+                <th>Email</th>
+                <th>UCs</th>
+                <th>Página Lusófona</th>
+            </tr>
+        </thead>
         <tbody>
         {% for d in docentes %}
             <tr>
                 <td>
-                    <div class="docente-cell">
-                        {% if d.foto %}<img src="{{ d.foto.url }}" alt="{{ d.nome }}" class="docente-avatar">
-                        {% else %}<div class="docente-avatar-placeholder">👤</div>{% endif %}
-                        <span class="docente-name">{{ d.nome }}</span>
-                    </div>
+                    {% if d.foto %}<img src="{{ d.foto.url }}" alt="{{ d.nome }}" width="40">{% endif %}
+                    {{ d.nome }}
                 </td>
-                <td class="text-muted">{{ d.email|default:"—" }}</td>
-                <td>
-                    {% for uc in d.ucs.all %}
-                        <span class="badge badge-blue">{{ uc.nome }}</span>
-                    {% empty %}<span class="text-muted">—</span>{% endfor %}
-                </td>
-                <td>{% if d.url_pagina_lusofona %}<a href="{{ d.url_pagina_lusofona }}" target="_blank" class="link-accent">↗ perfil</a>{% else %}<span class="text-muted">—</span>{% endif %}</td>
+                <td>{{ d.email|default:"—" }}</td>
+                <td>{% for uc in d.ucs.all %}{{ uc.nome }}{% if not forloop.last %}, {% endif %}{% empty %}—{% endfor %}</td>
+                <td>{% if d.url_pagina_lusofona %}<a href="{{ d.url_pagina_lusofona }}" target="_blank">Perfil</a>{% else %}—{% endif %}</td>
             </tr>
         {% empty %}
-            <tr><td colspan="4"><div class="empty"><span>👤</span>Nenhum docente adicionado ainda.</div></td></tr>
+            <tr><td colspan="4">Nenhum docente adicionado ainda.</td></tr>
         {% endfor %}
         </tbody>
     </table>
-</div>
+</section>
+
 {% endblock %}
