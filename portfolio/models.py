@@ -108,8 +108,8 @@ class Formacao(models.Model):
 
 class TFC(models.Model):
     titulo = models.CharField(max_length=200)
-    autor = models.CharField(max_length=150)
-    orientador = models.CharField(max_length=150, blank=True)
+    autor = models.CharField(max_length=500)
+    orientador = models.TextField(blank=True)
     ano = models.IntegerField()
     descricao = models.TextField(blank=True)
     url_repositorio = models.URLField(blank=True)

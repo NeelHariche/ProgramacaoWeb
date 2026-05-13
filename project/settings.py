@@ -11,8 +11,18 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 from pathlib import Path
 import os
+import environ
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+env = environ.Env()
+environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': env('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': env('CLOUDINARY_API_KEY'),
+    'API_SECRET': env('CLOUDINARY_API_SECRET'),
+}
 
 SECRET_KEY = 'django-insecure-9jpp&tjf+nzpipje1q1^n66=mtsd@me_5_97uri-ti0u5l30gi'
 
@@ -32,6 +42,8 @@ INSTALLED_APPS = [
     'markdownify.apps.MarkdownifyConfig',
     'accounts',
     'artigos',
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
 LOGIN_URL = '/accounts/login/'
@@ -40,6 +52,7 @@ LOGOUT_REDIRECT_URL = '/'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -68,10 +81,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'project.wsgi.application'
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    "default": env.db("DATABASE_URL")
 }
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -91,8 +101,15 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
+STORAGES = {
+    "default": {
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MARKDOWNIFY = {
